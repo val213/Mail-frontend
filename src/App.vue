@@ -1,17 +1,11 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <RouterView name:WelcomePage></RouterView>
+
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+<script setup>
+import {  RouterView } from 'vue-router'
+//开局用RouterView 加name:‘//相当于一个路由的标签，用来代指这个路由’实现绕开显示app.vue而显示我需要的页面
 </script>
 
 <style>
