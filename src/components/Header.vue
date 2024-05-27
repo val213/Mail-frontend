@@ -3,17 +3,14 @@
     <header class="header">  
       <!-- 横幅或导航栏内容 -->  
       <h1>这是头部</h1>
-      <button class="login" @click="goToLogin">登录/注册</button>
+      <button class="login">登录/注册</button>
     </header>  
 </template>  
     
 <script>  
 export default {  
   methods: {  
-    goToLogin() {
-        console.log(this.$router); // 检查this.$router是否是undefined  
-        this.$router.push('/login'); 
-    }  
+  
   }  
 }  
 </script> 
