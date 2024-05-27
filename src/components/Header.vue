@@ -1,0 +1,35 @@
+<!-- eslint-disable vue/multi-word-component-names -->
+<template>  
+    <header class="header">  
+      <!-- 横幅或导航栏内容 -->  
+      <h1>这是头部</h1>
+      <button class="login" @click="goToLogin">登录/注册</button>
+    </header>  
+</template>  
+    
+<script>  
+export default {  
+  methods: {  
+    goToLogin() {
+        console.log(this.$router); // 检查this.$router是否是undefined  
+        this.$router.push('/login'); 
+    }  
+  }  
+}  
+</script> 
+
+<style scoped>  
+  .header {  
+    height: 60px; 
+    background-color: #f8f9fa;
+    display: flex;  
+    align-items: center;  
+    justify-content: center;
+    /* border-color: black;
+    border-width: 5px;
+    border-style: solid; */
+  }  
+  .login {
+    margin-left: auto;
+  }
+</style>
