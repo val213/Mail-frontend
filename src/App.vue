@@ -1,24 +1,12 @@
 <template>
-    <div class="app">
-        <Header /> 
-        <Sidebar />
-        <MainContent />
-    </div>
+ <router-view/>
 </template>
 
-<script>
-import Header from './components/Header.vue'
-import Sidebar from './components/Sidebar.vue'
-import MainContent from './components/MainContent.vue';
+<script setup>
 
-export default {
-  name: 'App',
-  components: {
-    Header,
-    Sidebar,
-    MainContent
-  }
-}
+
+
+
 </script>
 
 <style>
