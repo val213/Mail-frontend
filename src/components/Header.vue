@@ -3,13 +3,18 @@
     <header class="header">  
       <!-- 横幅或导航栏内容 -->  
       <h1>这是头部</h1>
-      <button class="login">登录/注册</button>
+      <button class="login" @click="clickonLogin">登录/注册</button>
     </header>  
 </template>  
     
 <script>  
 export default {  
-  methods: {  
+  methods: {
+      clickonLogin(){
+          this.$router.push({path:'/Login'})
+          
+          
+      },
   
   }  
 }  
