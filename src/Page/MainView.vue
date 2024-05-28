@@ -1,16 +1,18 @@
 <script >
+    import Header from "@/components/Header.vue";
+    import Sidebar from "@/components/Sidebar.vue";
+    import MainContent from "@/components/MainContent.vue";
+    
     export default {
-    
-    
+  components:{MainContent, Sidebar, Header}
     
     }
 </script>
 <template>
-    <div>默认打开页面为MainView组件，也就是这个、
-    
-  
-    
-    </div>
+ 
+      <Header/>
+      <Sidebar/>
+    <MainContent/>
     
 </template>
 <style scoped>
