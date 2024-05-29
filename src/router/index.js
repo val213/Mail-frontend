@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import MainView from "@/Page/MainView.vue";
-import Login from "@/components/Login.vue";
+
+import LoginPage from "@/Page/LoginPage.vue";
+import SignUpPage from "@/Page/SignUpPage.vue";
+import MainPage from "@/Page/MainPage.vue";
+
+
 
 
 
@@ -9,13 +13,22 @@ const routerHistory = createWebHistory()
 const constantRoutes = [
     {
        path:'/',
-        component:MainView
+        component:MainPage
     },
     {
         path:'/Login',
-        component:Login
+        name:'Login',
+        component:LoginPage
 
     },
+    {
+        path:'/SignUp',
+        name:'SignUp',
+        component:SignUpPage
+
+
+    },
+
 
 ]
 
