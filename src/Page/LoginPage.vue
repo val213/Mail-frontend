@@ -22,7 +22,7 @@
 
 <script setup>
 import {ref} from "vue";
-import SignAndLogin from "@/services/SignAndLogin";
+import { UserLogin } from '@/services/SignAndLogin';
 import router from "@/router";
 const emailAddress = ref('');
 const validofemailAddress=ref(false)
@@ -33,7 +33,7 @@ const Login = async () =>
     try
     {
         // 调用服务中的方法
-        const response = await SignAndLogin.UserLogin(emailAddress, password);
+        const response = await UserLogin(emailAddress, password);
         console.log(response)
     } catch (error)
     {

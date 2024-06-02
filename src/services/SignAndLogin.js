@@ -6,13 +6,13 @@ export const UserRegister = async (username, password) =>
         // 创建一个用户对象
         const SignUpMessage = {
             username: username,
-            password: password
+            password: password,
         };
         // 使用 axios.post 方法进行用户注册
         const response = await axios({
             method: 'post',
             url: '/user/register',
-            data: {SignUpMessage}
+            data: SignUpMessage
         });
         // 注册成功时的处理逻辑
 
@@ -34,7 +34,7 @@ export const UserLogin = async (emailAddress, password) =>
             emailAddress: emailAddress,
             password: password
         };
-        // 使用 axios.post 方法进行用户注册
+        // 使用 axios.post 方法进行用户登录
        const response=await axios({
             method: 'post',
             url: '/user/login',
@@ -43,18 +43,18 @@ export const UserLogin = async (emailAddress, password) =>
             if(response.status===200){
 
                 // 注册成功时的处理逻辑
-                console.log('用户注册成功，返回信息:', response.statusText);
+                console.log('用户登录成功，返回信息:', response.statusText);
                 return response; // 返回成功响应
             }
             else
             {
 
-                console.error('用户注册失败:', response.statusText);
+                console.error('用户登录失败:', response.statusText);
                 return response; // 抛出错误，以便外部可以捕获
             }
     } catch (error)
     {
-        console.error('用户注册失败:', error);
+        console.error('用户登录失败:', error);
         throw error; // 抛出错误，以便外部可以捕获
     }
 }

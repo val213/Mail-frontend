@@ -11,4 +11,4 @@ app.use(router)
 app.use(ElementPlus)
 app.mount('#app')
 
-axios.defaults.baseURL = 'http://127.0.0.1:4523/m1/4519450-4166923-default';
+axios.defaults.baseURL = 'http://127.0.0.1:8080';
