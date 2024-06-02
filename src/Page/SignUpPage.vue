@@ -1,11 +1,40 @@
+<template>
+    <div class="signUp">
+        <div class="container" id="container">
+          <div class="form-container">
+            <form>
+              <h1 class="title">注 册</h1>
+              <span></span>
+              <input type="text" placeholder="用户名" v-model="username"/>
+              <input type="password" placeholder="密码" v-model="password"/>
+              <input type="password" placeholder="确认密码" v-model="confirmPassword" @input="ifSame"/>
+              <input type="text" placeholder="手机号" v-model="phoneNumber"/>
+              <div class="phone">
+                <input type="text" placeholder="验证码" v-model="verification_code"/>
+                <button class="sendCode" @click="ask_for_send_verification_code">发送验证码</button>
+              </div>
+              <div class="signUpBtn" @click="signUp()" >注册</div>
+              <button class="goToLogin" @click="turnToLoginPage">已有账号？去登陆</button>
+            </form>
+          </div>
+          <div class="pic-container">
+                <img class="logo" src="@/assets/logo.png" alt="" />
+                <p>「 更便捷的邮箱系统 」</p>
+                <span>Version 1.0.0</span>
+          </div>
+        </div>
+    </div>
+  </template>
+
 <script setup>
     import { ref} from "vue";
     import {UserRegister} from "@/services/SignAndLogin";
+    import router from "@/router";
     
     const username = ref('');
     const password = ref('');
     const confirmPassword = ref('')
-    const phonenumber = ref('')
+    const phoneNumber = ref('')
     const verification_code = ref('')
     let same = ref(false)
     const signUp = () =>
@@ -18,7 +47,7 @@
             console.log("请求失败")
        
     };
-    const ifsame = () =>
+    const ifSame = () =>
     {
         same.value = password.value === confirmPassword.value
     }
@@ -27,43 +56,187 @@
         console.log('点击了发送验证码按钮')
        
     }
-   
+    const turnToLoginPage=()=>{
+      
+      router.push({path:'/Login'})
+      
+    }
 </script>
-<template>
+
+<style  scoped>
+  .signUp {
+    font-family: "Montserrat", sans-serif;
+    background: #f6f5f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg,rgb(155, 231, 243),rgb(196, 196, 242));
+    background-size: cover;
+  }
+
+  .logo {
+    width: 100%;
+    height: auto;
+  }
+
+  .title {
+    font-weight: bold;
+    margin: 0;
+    color: beige;
+  }
   
-  <div>
-    <el-form >
-      <el-form-item label="用户名称" >
-        <el-input v-model="username" placeholder="这里输入用户名。。"></el-input>
-      </el-form-item>
+  p {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+  }
+  
+  span {
+    font-size: 12px;
+    color: rgb(16, 16, 13);
+  }
+  
+  a {
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+  }
+  
+  .container {
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    position: absolute;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+    opacity: 0.8;
+  }
+  
+  .form-container form {
+    background: rgba(45, 52, 54, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .form-container input {
+    background: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+  }
+  
+  .signUpBtn {
+    cursor: pointer;
+    border-radius: 20px;
+    border: 1px solid #1BBFB4;
+    background: #1BBFB4;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
 
-      <el-form-item label="密码" >
-        <el-input type="password" v-model="password" placeholder="密码不少于6位，其他要求待添加"  show-password/>
-      </el-form-item>
+  .goToLogin {
+    cursor: pointer;
+    border-radius: 15px;
+    border: 1px solid #77d6ff;
+    background: #77d6ff;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 8px 40px;
+    margin-top: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  input[type="text"] {
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-family: "PLay", sans-serif;
+    font-size: 16px;
+    font-weight: 200px;
+    padding: 10px 0;
+    outline: none;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  input[type="password"] {
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    font-family: "PLay", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 0;
+    outline: none;
+    color: #fff;
+  }
 
-      <el-form-item   label="确认密码">
-        <el-input   type="password" v-model="confirmPassword" placeholder="待添加" @input="ifsame"
-        ></el-input>
-        <el-form-item v-if="!same && confirmPassword !== ''">
-          <p>输入的两次密码需相同</p>
-        </el-form-item>
-      </el-form-item>
+  .phone {  
+    display: flex;  
+    align-items: center; 
+  }  
+  
+  .phone input[type="text"] {  
+    flex: 1; /* 让输入框占据尽可能多的空间 */  
+    margin-right: 10px; /* 根据需要调整输入框和按钮之间的间距 */  
+  }  
+  
+  .sendCode {      
+    cursor: pointer;
+    border-radius: 15px;
+    border: 1px solid #77d6ff;
+    background: #77d6ff;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 8px 20px;
+    margin-top: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase; 
+  }
+  
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 50%;
+  }
+  
+  .pic-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    justify-content: center; 
+    text-align: center;
+  }
 
-      <el-form-item label="手机号">
-        <el-input v-model="phonenumber" placeholder="请输入11位的手机号！"></el-input>
-      </el-form-item>
-
-      <el-form-item label="验证码">
-        <el-input v-model="verification_code" placeholder="验证码"></el-input>
-        <el-button type="primary" @click="ask_for_send_verification_code">发送验证码</el-button>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="signUp()">注册</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
-</template>
-
-<style scoped>
-</style>
+  </style>
+  
