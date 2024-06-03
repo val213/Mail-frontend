@@ -5,40 +5,35 @@ export const UserRegister = async (username, password) =>
 
         // 创建一个用户对象
         const SignUpMessage = {
-            username: username,
-            password: password,
-        };
-        // 使用 axios.post 方法进行用户注册
-        const response = await axios({
-            method: 'post',
-            url: '/user/register',
-            data: SignUpMessage
-        });
-        // 注册成功时的处理逻辑
+            username: username.value,
+            password: password.value,
+        };    console.log('请求体:', SignUpMessage);
 
-        if (response.status === 2000)
-        {  console.log('用户注册成功，返回信息:', response.statusText);
-            return response; // 返回成功响应
+        try {
+            const response = await axios.post('/user/register', SignUpMessage, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('注册失败:', error.response ? error.response.data : error.message);
+            throw error;
         }
-        else{
-            console.log('用户注册失败，返回信息:',response.statusText)
-
-        }
-
 };
 export const UserLogin = async (emailAddress, password) =>
 {
     try
     {
         const LoginMessage = {
-            emailAddress: emailAddress,
-            password: password
-        };
+            emailAddress: emailAddress.value,
+            password: password.value,
+        };console.log('请求体:', LoginMessage);
         // 使用 axios.post 方法进行用户登录
        const response=await axios({
             method: 'post',
             url: '/user/login',
-            data: {LoginMessage}
+            data: LoginMessage,
         });
             if(response.status===200){
 
