@@ -1,22 +1,18 @@
 <script setup>
     import {ref} from "vue";
-    import SignAndLogin from "@/services/SignAndLogin";
+    
     import router from "@/router";
+    import {UserLogin} from "@/services/SignAndLogin";
     const emailAddress = ref('');
     const validofemailAddress=ref(false)
     const password = ref('');
       const validofpassword=ref(false)
     const Login = async () =>
     {
-        try
-        {
-            // 调用服务中的方法
-            const response = await SignAndLogin.UserLogin(emailAddress, password);
-            console.log(response)
-        } catch (error)
-        {
-            console.log(error)
-        }
+          // 调用服务中的方法
+            const response = UserLogin(emailAddress, password);
+            console.log(response.data)
+       
     }
     const checkTheEmailAddress=()=>{
         let emailaddress=emailAddress.value;

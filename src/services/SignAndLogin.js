@@ -16,9 +16,9 @@ export const UserRegister = async (username, password) =>
         });
         // 注册成功时的处理逻辑
 
-        if (response.status === 2000)
+        if (response.status === 200)
         {  console.log('用户注册成功，返回信息:', response.statusText);
-            return response; // 返回成功响应
+             // 返回成功响应
         }
         else{
             console.log('用户注册失败，返回信息:',response.statusText)
@@ -28,35 +28,27 @@ export const UserRegister = async (username, password) =>
 };
 export const UserLogin = async (emailAddress, password) =>
 {
-    try
-    {
         const LoginMessage = {
             emailAddress: emailAddress,
             password: password
         };
         // 使用 axios.post 方法进行用户注册
-       const response=await axios({
+          const response= await axios({
             method: 'post',
             url: '/user/login',
             data: {LoginMessage}
         });
-            if(response.status===200){
 
-                // 注册成功时的处理逻辑
-                console.log('用户注册成功，返回信息:', response.statusText);
-                return response; // 返回成功响应
-            }
-            else
-            {
+           if (response.status === 200)
+        {  console.log('用户注册成功，返回信息:', response.statusText);
+             // 返回成功响应
+        }
+        else{
+            console.log('用户注册失败，返回信息:',response.statusText)
 
-                console.error('用户注册失败:', response.statusText);
-                return response; // 抛出错误，以便外部可以捕获
-            }
-    } catch (error)
-    {
-        console.error('用户注册失败:', error);
-        throw error; // 抛出错误，以便外部可以捕获
-    }
+        }     // 返回成功响应
+
+
 }
 export const sendverificationcode = (phonenumber) =>
 {

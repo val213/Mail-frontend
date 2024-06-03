@@ -12,8 +12,7 @@
     {
             // 调用服务中的方法
             const response = UserRegister(username, password);
-           
-      
+           alert(response)
         console.log("返回内容"+response.data)
             console.log("请求失败")
        
