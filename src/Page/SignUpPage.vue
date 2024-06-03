@@ -8,7 +8,7 @@
               <input type="text" placeholder="用户名" v-model="username"/>
               <input type="password" placeholder="密码" v-model="password"/>
               <input type="password" placeholder="确认密码" v-model="confirmPassword" @input="ifSame"/>
-              <input type="text" placeholder="手机号" v-model="phoneNumber"/>
+              <input type="text" placeholder="手机号" v-model="telephone"/>
               <div class="phone">
                 <input type="text" placeholder="验证码" v-model="verification_code"/>
                 <button class="sendCode" @click="ask_for_send_verification_code">发送验证码</button>
@@ -29,18 +29,19 @@
 <script setup>
     import { ref} from "vue";
     import {UserRegister} from "@/services/SignAndLogin";
+    import {SendVerificationcode} from "@/services/SignAndLogin";
     import router from "@/router";
     
     const username = ref('');
     const password = ref('');
     const confirmPassword = ref('')
-    const phoneNumber = ref('')
-    const verification_code = ref('')
+    const telephone = ref('')
+    const verifycode = ref('')
     let same = ref(false)
     const signUp = () =>
     {
             // 调用服务中的方法
-            const response = UserRegister(username, password);
+            const response = UserRegister(username, password,telephone,verifycode);
            
       
         console.log("返回内容"+response.data)
@@ -53,7 +54,16 @@
     }
     const ask_for_send_verification_code = () =>
     {
-        console.log('点击了发送验证码按钮')
+        console.log('点击了发送验证码按钮'+telephone.value);
+        const response = SendVerificationcode(telephone);
+        if (response.data === 'success')
+        {
+            console.log('发送验证码成功')
+        }
+        else
+        {
+            console.log('发送验证码失败')
+        }
        
     }
     const turnToLoginPage=()=>{
