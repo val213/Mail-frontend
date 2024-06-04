@@ -2,8 +2,9 @@
 <template>
     <header class="header">
         <!-- 横幅或导航栏内容 -->
-        <h1>这是头部</h1>
-        <button class="login" @click="clickonLogin">登录/注册</button>
+        <img class="logo" src="@/assets/logo.png" alt="Logo">
+        <el-input class="search" v-model="searchText" placeholder="搜索邮件"></el-input>
+        <el-avatar class="avatar" @click="clickonLogin" src="el-icon-user-solid"></el-avatar>
     </header>
 </template>
 <script>
@@ -14,13 +15,18 @@
             {
                 router.push({path:'/Login'})
             },
-        }
+        },
+        data() {
+        return {
+            searchText: ''
+        };
+    }
     }
 </script>
 <style scoped>
     .header
     {
-        height: 60px;
+        height: 80px;
         background-color: #f8f9fa;
         display: flex;
         align-items: center;
@@ -30,8 +36,21 @@
         border-style: solid; */
     }
     
-    .login
+    .avatar
     {
         margin-left: auto;
+        cursor: pointer;
+    }
+
+    .logo
+    {
+        height: 150px;
+    }
+
+    .search
+    {
+        flex-grow: 0;
+        width: 1000px;
+        margin: 0 20px;
     }
 </style>

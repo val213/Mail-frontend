@@ -1,9 +1,9 @@
 <template>
- <router-view/>
+  <MainPage/>
 </template>
 
 <script setup>
-
+import MainPage from "@/Page/MainPage.vue";
 
 
 

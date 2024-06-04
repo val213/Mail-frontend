@@ -13,16 +13,14 @@
 <template>  
     <aside class="sidebar">  
       <!-- 侧边栏内容 -->  
-    
-      
-      
-        <div><router-link to="writeEmail">写信</router-link></div>
-              <div>  <router-link to="EmailHaveSent">写信箱</router-link></div>
-             <div>  <router-link to="EmailHaveReceived">收信箱</router-link></div>
-              <div>  <router-link to="StarEmail">星标邮件</router-link></div>
-               <div> <router-link to="DraftBox">草稿箱</router-link></div>
-             
-      <div> <router-link to="JunkMailBox">垃圾箱</router-link>   </div>
+      <el-menu>
+        <el-menu-item index="1" @click="$router.push('writeEmail')">写信</el-menu-item>
+        <el-menu-item index="2" @click="$router.push('EmailHaveSent')">写信箱</el-menu-item>
+        <el-menu-item index="3" @click="$router.push('EmailHaveReceived')">收信箱</el-menu-item>
+        <el-menu-item index="4" @click="$router.push('StarEmail')">星标邮件</el-menu-item>
+        <el-menu-item index="5" @click="$router.push('DraftBox')">草稿箱</el-menu-item>
+        <el-menu-item index="6" @click="$router.push('JunkMailBox')">垃圾箱</el-menu-item>
+      </el-menu>
       
     </aside>  
 </template>
