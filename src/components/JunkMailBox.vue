@@ -1,10 +1,13 @@
 <script>
     export default {
-        name: "email"
+        name: "JunkMailBox"
     }
 </script>
 <template>
-
+    <div>lajixiang</div>
 </template>
 <style scoped>
+
+
+
 </style>

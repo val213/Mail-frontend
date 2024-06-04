@@ -1,12 +1,10 @@
 <script>
     export default {
-        name: "WelcomePage"
+        name: "DraftBox"
     }
 </script>
 <template>
-    <div>
-        
-    </div>
+    <div>Draft</div>
 </template>
 <style scoped>
 </style>

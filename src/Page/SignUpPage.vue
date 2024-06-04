@@ -41,9 +41,9 @@
     {
             // 调用服务中的方法
             const response = UserRegister(username, password);
-           alert(response)
-        console.log("返回内容"+response.data)
-            console.log("请求失败")
+           
+            console.log("返回内容"+response.data)
+           
        
     };
     const ifSame = () =>
@@ -171,7 +171,7 @@
     border-bottom: 1px solid #fff;
     font-family: "PLay", sans-serif;
     font-size: 16px;
-    font-weight: 200px;
+  
     padding: 10px 0;
     outline: none;
     color: #fff;
