@@ -5,7 +5,7 @@
             <form>
               <h1 class="title">登 录</h1>
               <span></span>
-              <input type="email" placeholder="邮箱账号" v-model="account"  @input="checkTheEmailAddress"/>
+              <input type="email" placeholder="邮箱账号" v-model="emailAddress"  @input="checkTheEmailAddress"/>
               <input type="password" placeholder="密码" v-model="password" @input="checkThePassword"/>
               <div class="loginBtn" @click="Login()" >登录</div>
               <button class="goToSignUp" @click="turnToSignUpPage">还未注册？去注册</button>
@@ -44,7 +44,7 @@ const checkTheEmailAddress=()=>{
     let emailaddress=emailAddress.value;
   
    validofemailAddress.value=emailaddress.split('@').pop().toLowerCase().split('.').pop()==='com'
-    
+   
 }
 const checkThePassword=()=>{
     let passWord=password.value
@@ -169,7 +169,7 @@ const turnToSignUpPage=()=>{
     border-bottom: 1px solid #fff;
     font-family: "PLay", sans-serif;
     font-size: 16px;
-    font-weight: 200px;
+   
     padding: 10px 0;
     outline: none;
     color: #fff;
@@ -198,7 +198,7 @@ const turnToSignUpPage=()=>{
     border-bottom: 1px solid #fff;
     font-family: "PLay", sans-serif;
     font-size: 16px;
-    font-weight: 200px;
+
     padding: 10px 0;
     outline: none;
     color: #fff;
@@ -224,10 +224,10 @@ const turnToSignUpPage=()=>{
     width: 50%;
     height: 100%;
     overflow: hidden;
-    display: flex;  
-    flex-direction: column;  
-    align-items: center;  
-    justify-content: center; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
   }
 
