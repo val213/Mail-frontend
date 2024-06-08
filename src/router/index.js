@@ -9,6 +9,7 @@ import EmailHaveSent from "@/components/EmailHaveSent.vue";
 import DraftBox from "@/components/DraftBox.vue";
 import StarEmail from "@/components/StarEmail.vue";
 import JunkMailBox from "@/components/JunkMailBox.vue";
+import UserProfile from "@/components/UserProfile.vue";
 
 
 
@@ -18,57 +19,48 @@ const routerHistory = createWebHistory()
 
 const constantRoutes = [
     {
-       path:'/',
+        path:'/',
         component:MainPage
     },
     {
         path:'/Login',
-
         component:LoginPage
-
     },
     {
         path:'/SignUp',
-
         component:SignUpPage
-
-
     },
     {
         path:'/writeEmail',
-
         component:writeEmail
-
-
-
     },
     {
-
         path:'/EmailHaveReceived',
-
         component:EmailHaveReceived
-
-
     },
     {
-         path:'/EmailHaveSent',
-
+        path:'/EmailHaveSent',
         component:EmailHaveSent
 
     },
     {
         path:'/DraftBox',
-              component:DraftBox
+        component:DraftBox
 
     },
     {
         path:'/StarEmail',
-              component:StarEmail
+        component:StarEmail
 
     },
     {
         path:"/JunkMailBox",
         component:JunkMailBox
+    },
+    {
+        path:'/UserProfile',
+        component:UserProfile
+
     }
 
 ]

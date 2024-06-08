@@ -4,16 +4,16 @@
         <!-- 横幅或导航栏内容 -->
         <img class="logo" src="@/assets/logo.png" alt="Logo">
         <el-input class="search" v-model="searchText" placeholder="搜索邮件"></el-input>
-        <el-avatar class="avatar" @click="clickonLogin" src="el-icon-user-solid"></el-avatar>
+        <el-avatar class="avatar" @click="clickonUser" src="el-icon-user-solid"></el-avatar>
     </header>
 </template>
 <script>
     import router from '@/router/index.js'
     export default {
         methods: {
-            clickonLogin()
+            clickonUser()
             {
-                router.push({path:'/Login'})
+                router.push({path:'/UserProfile'})
             },
         },
         data() {
@@ -27,7 +27,7 @@
     .header
     {
         height: 80px;
-        background-color: #f8f9fa;
+        background: linear-gradient(90deg, #cbe6ff,#ffffff);
         display: flex;
         align-items: center;
         justify-content: center;

@@ -2,7 +2,7 @@
   .sidebar {
     width: 200px;
     height: 100%;
-    background-color: #dee2e6;
+    background-color: #ffffff;
     position: fixed;
     left: 0;
     /* border-color: black;
