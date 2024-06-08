@@ -1,5 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
-
+import {createRouter, createWebHistory} from 'vue-router'
 import LoginPage from "@/Page/LoginPage.vue";
 import SignUpPage from "@/Page/SignUpPage.vue";
 import MainPage from "@/Page/MainPage.vue";
@@ -10,73 +9,47 @@ import DraftBox from "@/components/DraftBox.vue";
 import StarEmail from "@/components/StarEmail.vue";
 import JunkMailBox from "@/components/JunkMailBox.vue";
 
-
-
-
-
 const routerHistory = createWebHistory()
-
 const constantRoutes = [
     {
-       path:'/',
-        component:MainPage
+        path: '/',
+        component: MainPage
     },
     {
-        path:'/Login',
-
-        component:LoginPage
-
+        path: '/Login',
+        component: LoginPage
     },
     {
-        path:'/SignUp',
-
-        component:SignUpPage
-
-
+        path: '/SignUp',
+        component: SignUpPage
     },
     {
-        path:'/writeEmail',
-
-        component:writeEmail
-
-
-
+        path: '/writeEmail',
+        component: writeEmail
     },
     {
-
-        path:'/EmailHaveReceived',
-
-        component:EmailHaveReceived
-
-
+        path: '/EmailHaveReceived',
+        component: EmailHaveReceived
     },
     {
-         path:'/EmailHaveSent',
-
-        component:EmailHaveSent
-
+        path: '/EmailHaveSent',
+        component: EmailHaveSent
     },
     {
-        path:'/DraftBox',
-              component:DraftBox
-
+        path: '/DraftBox',
+        component: DraftBox
     },
     {
-        path:'/StarEmail',
-              component:StarEmail
-
+        path: '/StarEmail',
+        component: StarEmail
     },
     {
-        path:"/JunkMailBox",
-        component:JunkMailBox
+        path: "/JunkMailBox",
+        component: JunkMailBox
     }
-
 ]
-
-
 let router = createRouter({
     history: routerHistory,
-    routes:constantRoutes,
+    routes: constantRoutes,
 })
-
-export default  router
+export default router
