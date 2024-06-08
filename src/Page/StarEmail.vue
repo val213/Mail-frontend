@@ -1,6 +1,10 @@
 <script>
+    import MailList from "@/components/MailList.vue";
     export default {
         name: "StarEmail",
+        components: {
+            MailList,
+        },
         data(){
             return{
                 userId:localStorage.getItem('userId'),
@@ -17,6 +21,7 @@
 </script>
 <template>
     <div>StarEmail</div>
+    <MailList/>
 </template>
 <style scoped>
 </style>

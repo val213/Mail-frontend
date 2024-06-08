@@ -3,11 +3,11 @@ import LoginPage from "@/Page/LoginPage.vue";
 import SignUpPage from "@/Page/SignUpPage.vue";
 import MainPage from "@/Page/MainPage.vue";
 import writeEmail from "@/components/writeEmail.vue";
-import EmailHaveReceived from "@/components/EmailHaveReceived.vue";
-import EmailHaveSent from "@/components/EmailHaveSent.vue";
-import DraftBox from "@/components/DraftBox.vue";
-import StarEmail from "@/components/StarEmail.vue";
-import JunkMailBox from "@/components/JunkMailBox.vue";
+import EmailHaveReceived from "@/Page/EmailHaveReceived.vue";
+import EmailHaveSent from "@/Page/EmailHaveSent.vue";
+import DraftBox from "@/Page/DraftBox.vue";
+import StarEmail from "@/Page/StarEmail.vue";
+import JunkMailBox from "@/Page/JunkMailBox.vue";
 
 const routerHistory = createWebHistory()
 const constantRoutes = [
