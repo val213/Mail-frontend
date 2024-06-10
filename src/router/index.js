@@ -9,6 +9,7 @@ import EmailHaveSent from "@/Page/EmailHaveSent.vue";
 import DraftBox from "@/Page/DraftBox.vue";
 import StarEmail from "@/Page/StarEmail.vue";
 import JunkMailBox from "@/Page/JunkMailBox.vue";
+import MailDetail from "@/components/MailDetail.vue";
 
 
 
@@ -69,7 +70,12 @@ const constantRoutes = [
     {
         path:"/JunkMailBox",
         component:JunkMailBox
-    }
+    },
+    {
+        path: '/mail/:mailId',
+        name: 'MailDetail',
+        component: MailDetail
+      },
 
 ]
 

@@ -3,7 +3,7 @@
     <header class="header">
         <!-- 横幅或导航栏内容 -->
         <img class="logo" src="@/assets/logo.png" alt="Logo">
-        <el-input class="search" v-model="searchText" placeholder="搜索邮件"></el-input>
+        <el-input clearable class="search" v-model="searchText" placeholder="搜索邮件" ></el-input>
         <el-avatar class="avatar" @click="clickonLogin" src="https://cdn-icons-png.flaticon.com/128/2202/2202112.png"></el-avatar>
     </header>
 </template>
