@@ -34,6 +34,7 @@ const Login = async () =>
     {
         // 调用服务中的方法
         const response = await UserLogin(emailAddress, password);
+          await router.push({path: '/MainPage'})
         console.log(response)
     } catch (error)
     {
