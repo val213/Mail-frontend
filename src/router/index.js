@@ -61,7 +61,12 @@ const constantRoutes = [
         path:'/UserProfile',
         component:UserProfile
 
-    }
+    },
+    {
+        path: '/mail/:mailId',
+        name: 'MailDetail',
+        component: MailDetail
+    },
 
 ]
 
