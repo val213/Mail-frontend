@@ -37,12 +37,17 @@
 </template>
 <script>
     import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
-    import {ElMessage} from "element-plus";
+    // import {ElMessage} from "element-plus";
+    import {useToast} from "vue-toastification"
     import axios from "axios";
     
     export default {
         name: "MyEditor",
         components: {Editor, Toolbar},
+        setup() {
+            const toast = useToast();
+            return { toast };
+        },
         data()
         {
             return {
@@ -94,10 +99,12 @@
                 {
                     if (res.data.code === 1)
                     {
-                        ElMessage('发送成功')
+                        // ElMessage('发送成功')
+                        this.showSuccessToast('发送成功');
                     } else
                     {
-                        console.log('发送失败' + res.data.message)
+                        console.log('发送失败' + res.data.message);
+                        this.showErrorToast('发送失败');
                     }
                 })
             }
@@ -111,6 +118,36 @@
                 }
             }
             ,
+            showSuccessToast(message) {
+            this.toast.success(message, {
+                timeout: 3000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                position: 'top-center',
+            });
+            //  ElMessage({
+            //   message: message,
+            //   type: 'success',
+            //   duration: 3000,
+            //   showClose: true,
+            //   center: true,
+            // });
+            },
+            showErrorToast(message) {
+            this.toast.error(message, {
+                timeout: 3000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                position: 'top-center',
+            });
+            //  ElMessage({
+            //   message: message,
+            //   type: 'error',
+            //   duration: 3000,
+            //   showClose: true,
+            //   center: true,
+            // });
+            }
         }
         ,
         mounted()
@@ -120,7 +157,9 @@
         beforeUnmount()
         {
             const editor = this.editor;
-            if (editor == null) return;
+            if (editor == null) {
+                return;
+            }
             editor.destroy(); // 组件销毁时，及时销毁 editor ，重要！！！
         }
         ,

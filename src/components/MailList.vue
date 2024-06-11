@@ -25,6 +25,10 @@
 
 <script>
 import axios from "axios";
+// import { ref } from 'vue';
+// import {ElMessage} from "element-plus";
+import { useToast } from 'vue-toastification';
+
 
 export default {
   name: "EmailHaveSent",
@@ -45,6 +49,10 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  setup() {
+    const toast = useToast();
+    return { toast };
   },
   data() {
     console.log("初始化数据"); // 添加日志
@@ -88,6 +96,7 @@ export default {
         console.log("获取邮件列表响应", res); // 添加日志
         if (res.data.code === 1) {
           console.log('查询邮件成功');
+          this.showSuccessToast('查询邮件成功');
           this.Emails = res.data.data.records;
           this.total = res.data.data.total; 
           // 打印日志
@@ -95,9 +104,11 @@ export default {
 
         } else {
           console.log('发送失败' + res.data.message);
+          this.showErrorToast('查询邮件失败');
         }
       }).catch(error => {
         console.error('请求邮件列表失败', error);
+        this.showErrorToast('请求邮件列表失败');
       });
     },
     handleSizeChange(newSize) {
@@ -116,7 +127,39 @@ export default {
       // 跳转到邮件详情页面，并将邮件ID作为参数传递
       this.$router.push({ name: 'MailDetail', params: { mailId: row.id } });
     },
+    showSuccessToast(message) {
+      this.toast.success(message, {
+        timeout: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        position: 'top-center',
+      });
+      //  ElMessage({
+      //   message: message,
+      //   type: 'success',
+      //   duration: 3000,
+      //   showClose: true,
+      //   center: true,
+      // });
+    },
+    showErrorToast(message) {
+      this.toast.error(message, {
+        timeout: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        position: 'top-center',
+      });
+      //  ElMessage({
+      //   message: message,
+      //   type: 'error',
+      //   duration: 3000,
+      //   showClose: true,
+      //   center: true,
+      // });
+    }
   },
+  // },
+  
   mounted() {
     console.log("组件挂载"); // 添加日志
     this.init();
