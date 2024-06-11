@@ -54,7 +54,7 @@ const checkThePassword=()=>{
 }
 const turnToSignUpPage=()=>{
       
-      router.push({path:'/SignUp'})
+      router.push({name:'SignUp'})
       
 }
 </script>

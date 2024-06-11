@@ -8,45 +8,69 @@ import EmailHaveSent from "@/Page/EmailHaveSent.vue";
 import DraftBox from "@/Page/DraftBox.vue";
 import StarEmail from "@/Page/StarEmail.vue";
 import JunkMailBox from "@/Page/JunkMailBox.vue";
+import viewEmail from "@/components/viewEmail.vue";
 
 const routerHistory = createWebHistory()
 const constantRoutes = [
     {
         path: '/',
-        component: MainPage
+        components: {top: LoginPage},
     },
     {
-        path: '/Login',
-        component: LoginPage
+        path: '/Signup',
+        name: 'SignUp',
+        components: {top: SignUpPage}
     },
     {
-        path: '/SignUp',
-        component: SignUpPage
+        path:'/Login',
+        name:'Login',
+        components:{top:LoginPage}
+
+
     },
     {
-        path: '/writeEmail',
-        component: writeEmail
+        path: '/MainPage',
+        components: {top: MainPage},
+        children: [
+            {
+                path: '',
+                components:
+                    {Main: writeEmail,}
+            },
+            {
+                path: 'writeEmail',
+                name: 'writeEmail',
+                components:
+                    {Main: writeEmail,}
+            },
+            {
+                path: 'EmailHaveReceived',
+                name: 'EmailHaveReceived',
+                components: {Main: EmailHaveReceived,}
+            },
+            {
+                path: 'EmailHaveSent',
+                name: "EmailHaveSent",
+                components: {Main: EmailHaveSent,}
+            },
+            {
+                path: 'DraftBox', name: "DraftBox",
+                components: {Main: DraftBox,}
+            },
+            {
+                path: 'StarEmail', name: "StarEmail",
+                components: {Main: StarEmail,}
+            },
+            {
+                path: "JunkMailBox", name: "JunkMailBox",
+                components: {Main: JunkMailBox,}
+            },
+            {
+                path: 'viewEmail', name: "viewEmail",
+                components: {Main: viewEmail,}
+            }
+        ],
     },
-    {
-        path: '/EmailHaveReceived',
-        component: EmailHaveReceived
-    },
-    {
-        path: '/EmailHaveSent',
-        component: EmailHaveSent
-    },
-    {
-        path: '/DraftBox',
-        component: DraftBox
-    },
-    {
-        path: '/StarEmail',
-        component: StarEmail
-    },
-    {
-        path: "/JunkMailBox",
-        component: JunkMailBox
-    }
 ]
 let router = createRouter({
     history: routerHistory,

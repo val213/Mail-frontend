@@ -13,7 +13,7 @@
         methods: {
             clickonLogin()
             {
-                router.push({path:'/Login'})
+                router.push({name:'Login'})
             },
         },
         data() {
