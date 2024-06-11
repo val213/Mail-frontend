@@ -31,18 +31,27 @@
     import {UserRegister} from "@/services/SignAndLogin";
     import {SendVerificationcode} from "@/services/SignAndLogin";
     import router from "@/router";
+    import { useToast } from 'vue-toastification';
     
     const username = ref('');
     const password = ref('');
     const confirmPassword = ref('')
     const telephone = ref('')
     const verifycode = ref('')
+    const toast = useToast();
+
     let same = ref(false)
     const signUp = () =>
     {
             // 调用服务中的方法
             const response = UserRegister(username, password,telephone,verifycode);
-           
+           if(response.data === 'success')
+           {
+             toast.success('注册成功');
+           }
+           else{
+             toast.error('注册失败');
+           }
             console.log("返回内容"+response.data)
            
        
@@ -57,11 +66,15 @@
         const response = SendVerificationcode(telephone);
         if (response.data === 'success')
         {
-            console.log('发送验证码成功')
+            console.log('发送验证码成功');
+            toast.success('发送验证码成功');
         }
         else
         {
-            console.log('发送验证码失败')
+            console.log('发送验证码失败');
+            toast.error('发送验证码失败');
+
+            
         }
        
     }
