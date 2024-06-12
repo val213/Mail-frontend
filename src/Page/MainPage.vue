@@ -1,9 +1,7 @@
 <template>
-   <Header/>
-                <Sidebar/>
-          
-                <MainContent/>
-     
+    <Header/>
+    <Sidebar/>
+    <MainContent/>
 </template>
 <script>
     import Header from "@/components/Header.vue";
