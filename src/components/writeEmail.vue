@@ -79,7 +79,7 @@
             ,
           
             sendEmail()
-            {
+            { const editor = this.editor
                 const data = {
                     multipartFile: this.multipartFile,
                     senderId: this.senderId,
@@ -87,7 +87,7 @@
                     theme: editor.getHtml(),
                     content: this.content,
                 }
-                const editor = this.editor
+               
                 axios({
                     method: "post",
                     url: '/mail/send',

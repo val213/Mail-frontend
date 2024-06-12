@@ -38,6 +38,7 @@ const Login = async () =>
         // 调用服务中的方法
         const response = await UserLogin(emailAddress, password);
         console.log(response);
+          await router.push({path:'/MainPage'})
         toast.success('登录成功');
     } catch (error)
     {
