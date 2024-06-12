@@ -1,35 +1,57 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-<template>  
-    <header class="header">  
-      <!-- 横幅或导航栏内容 -->  
-      <h1>这是头部</h1>
-      <button class="login" @click="goToLogin">登录/注册</button>
-    </header>  
-</template>  
+<template>
+    <header class="header">
+        <!-- 横幅或导航栏内容 -->
+        <img class="logo" src="@/assets/logo.png" alt="Logo">
+        <el-input class="search" v-model="searchText" placeholder="搜索邮件"></el-input>
+        <el-avatar class="avatar" @click="clickonUser" src="el-icon-user-solid"></el-avatar>
+       
+    </header>
+</template>
+<script>
+    import router from '@/router/index.js'
+    export default {
+        name:'HeaDer',
+        methods: {
+            clickonUser()
+            {
+                router.push({path:'UserProfile'})
+            },
+        },
+        data() {
+        return {
+            searchText: ''
+        };
+    }
+    }
+</script>
+<style scoped>
+    .header
+    {
+        height: 80px;
+        background: linear-gradient(90deg, #cbe6ff,#ffffff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* border-color: black;
+        border-width: 5px;
+        border-style: solid; */
+    }
     
-<script>  
-export default {  
-  methods: {  
-    goToLogin() {
-        console.log(this.$router); // 检查this.$router是否是undefined  
-        this.$router.push('/login'); 
-    }  
-  }  
-}  
-</script> 
+    .avatar
+    {
+        margin-left: auto;
+        cursor: pointer;
+    }
 
-<style scoped>  
-  .header {  
-    height: 60px; 
-    background-color: #f8f9fa;
-    display: flex;  
-    align-items: center;  
-    justify-content: center;
-    /* border-color: black;
-    border-width: 5px;
-    border-style: solid; */
-  }  
-  .login {
-    margin-left: auto;
-  }
+    .logo
+    {
+        height: 150px;
+    }
+
+    .search
+    {
+        flex-grow: 0;
+        width: 1000px;
+        margin: 0 20px;
+    }
 </style>

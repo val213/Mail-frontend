@@ -1,9 +1,10 @@
 .DS_Store
 node_modules
 /dist
-.yarnrc.yml
 .yarn
-package.json
+.yarnrc.yml
+.pnp.cjs
+.pnp.loader.mjs
 
 
 # local env files
