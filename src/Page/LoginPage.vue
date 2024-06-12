@@ -1,3 +1,4 @@
+
 <template>
     <div class="login">
         <div class="container" id="container">
@@ -22,23 +23,28 @@
 
 <script setup>
 import {ref} from "vue";
+
 import { UserLogin } from '@/services/SignAndLogin';
 import router from "@/router";
 const emailAddress = ref('');
-const validofemailAddress=ref(false)
+const validofemailAddress=ref(false);
+
 const password = ref('');
-  const validofpassword=ref(false)
+const validofpassword=ref(false);
+
 const Login = async () =>
 {
     try
     {
         // 调用服务中的方法
         const response = await UserLogin(emailAddress, password);
-          await router.push({path: '/MainPage'})
-        console.log(response)
+        console.log(response);
+
+                await router.push({path: '/MainPage'})
     } catch (error)
     {
-        console.log(error)
+        console.log(error);
+
     }
 }
 const checkTheEmailAddress=()=>{
@@ -55,7 +61,7 @@ const checkThePassword=()=>{
 }
 const turnToSignUpPage=()=>{
       
-      router.push({name:'SignUp'})
+      router.push({path:'/SignUp'})
       
 }
 </script>

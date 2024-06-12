@@ -8,7 +8,9 @@ import EmailHaveSent from "@/Page/EmailHaveSent.vue";
 import DraftBox from "@/Page/DraftBox.vue";
 import StarEmail from "@/Page/StarEmail.vue";
 import JunkMailBox from "@/Page/JunkMailBox.vue";
-import viewEmail from "@/components/viewEmail.vue";
+
+import UserProfile from "@/components/UserProfile.vue";
+import MailDetail from "@/components/MailDetail.vue";
 
 const routerHistory = createWebHistory()
 const constantRoutes = [
@@ -22,11 +24,9 @@ const constantRoutes = [
         components: {top: SignUpPage}
     },
     {
-        path:'/Login',
-        name:'Login',
-        components:{top:LoginPage}
-
-
+        path: '/Login',
+        name: 'Login',
+        components: {top: LoginPage}
     },
     {
         path: '/MainPage',
@@ -65,10 +65,16 @@ const constantRoutes = [
                 path: "JunkMailBox", name: "JunkMailBox",
                 components: {Main: JunkMailBox,}
             },
+
             {
-                path: 'viewEmail', name: "viewEmail",
-                components: {Main: viewEmail,}
-            }
+                path: 'UserProfile', name: 'UserProfile',
+                components: {Main: UserProfile}
+            },
+            {
+                path: 'mail/:mailId',
+                name: 'MailDetail',
+                components: {Main: MailDetail}
+            },
         ],
     },
 ]

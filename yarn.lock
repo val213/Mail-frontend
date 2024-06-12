@@ -5307,6 +5307,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.12.16"
     "@babel/eslint-parser": "npm:^7.12.16"
+    "@element-plus/icons-vue": "npm:^2.3.1"
     "@vue/cli-plugin-babel": "npm:~5.0.0"
     "@vue/cli-plugin-eslint": "npm:~5.0.0"
     "@vue/cli-service": "npm:~5.0.0"
@@ -5319,6 +5320,7 @@ __metadata:
     eslint-plugin-vue: "npm:^8.0.3"
     vue: "npm:^3.2.13"
     vue-router: "npm:^4.3.2"
+    vue-toastification: "npm:^1.7.14"
   languageName: unknown
   linkType: soft
 
@@ -9552,6 +9554,15 @@ __metadata:
   version: 1.9.1
   resolution: "vue-template-es2015-compiler@npm:1.9.1"
   checksum: 10c0/21d27d1c6afe10a47f17793e18afb7f321888d3ca728bfdb2a79ff49789ed9b40e98abcb68b5499f3da1bbb76a0f188b94aeb5ab0e879f46d6399ac5d4ae38c8
+  languageName: node
+  linkType: hard
+
+"vue-toastification@npm:^1.7.14":
+  version: 1.7.14
+  resolution: "vue-toastification@npm:1.7.14"
+  peerDependencies:
+    vue: ^2.0.0
+  checksum: 10c0/6610ed0bd19aecf03e1a3d7dc84ca118807e766a098bd4f8f81c91fd364ec690907722f915de7998d8b03e6a41c66a80af9bf164ed00f893c2b5a1bcd0ce16b1
   languageName: node
   linkType: hard
 
