@@ -1,4 +1,3 @@
-
 <template>
     <div class="login">
         <div class="container" id="container">
@@ -23,12 +22,12 @@
 
 <script setup>
 import {ref} from "vue";
-
+import { useToast } from 'vue-toastification';
 import { UserLogin } from '@/services/SignAndLogin';
 import router from "@/router";
 const emailAddress = ref('');
 const validofemailAddress=ref(false);
-
+const toast = useToast();
 const password = ref('');
 const validofpassword=ref(false);
 
@@ -39,12 +38,11 @@ const Login = async () =>
         // 调用服务中的方法
         const response = await UserLogin(emailAddress, password);
         console.log(response);
-
-                await router.push({path: '/MainPage'})
+        toast.success('登录成功');
     } catch (error)
     {
         console.log(error);
-
+        toast.error('登录失败，请检查您的账号和密码');
     }
 }
 const checkTheEmailAddress=()=>{

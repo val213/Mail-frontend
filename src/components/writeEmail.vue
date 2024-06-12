@@ -38,15 +38,15 @@
 <script>
     import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
     // import {ElMessage} from "element-plus";
-
+    import {useToast} from "vue-toastification"
     import axios from "axios";
     
     export default {
         name: "MyEditor",
         components: {Editor, Toolbar},
         setup() {
-        
-        
+            const toast = useToast();
+            return { toast };
         },
         data()
         {
@@ -87,7 +87,7 @@
                     theme: editor.getHtml(),
                     content: this.content,
                 }
-              const editor = this.editor
+                const editor = this.editor
                 axios({
                     method: "post",
                     url: '/mail/send',

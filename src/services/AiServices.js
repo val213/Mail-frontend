@@ -20,12 +20,12 @@ export const AiContentSummarize = async (content) => {
             console.log('Ai总结内容成功', response.data)
             return response.data
         }
-        else {
+        else { 
             console.error('获取Ai服务失败：', response.statusText);
             return response.data;
         }
 
-
+        
     } catch (error) {
         console.error('获取Ai总结邮件内容服务失败：', error.response ? error.response.data : error.message);
         throw error;

@@ -27,9 +27,9 @@ export default {
         },
         async summarize() {
             try {
-               const responses = await AiContentSummarize(this.mailContent)
+                const response = await AiContentSummarize(this.mailContent)
                 //console.log(response)
-                return responses
+                return response
             } catch (error) {
                 console.log(error)
             }

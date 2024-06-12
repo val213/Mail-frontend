@@ -16,7 +16,8 @@
     "element-plus": "^2.7.3",
     "vue": "^3.2.13",
     "vue-router": "^4.3.2",
-    "vue-toastification": "^1.7.14"
+    "vue-toastification": "^2.0.0-rc.5",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -47,5 +48,5 @@
     "not dead",
     "not ie 11"
   ],
-  "packageManager": "yarn@4.2.2+sha512.c44e283c54e02de9d1da8687025b030078c1b9648d2895a65aab8e64225bfb7becba87e1809fc0b4b6778bbd47a1e2ab6ac647de4c5e383a53a7c17db6c3ff4b"
+  "packageManager": "yarn@4.2.2+sha512.c44e283c54e02de9d1da8687025b030078c1b9648d2895a65aab8e64225bfb7becba87e1809fc0b4b6778bbd47a1e2ab6ac647de4c5e383a53a7c17db6c3ff4bs"
 }

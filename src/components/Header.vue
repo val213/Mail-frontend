@@ -1,20 +1,19 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <header class="header">
         <!-- 横幅或导航栏内容 -->
         <img class="logo" src="@/assets/logo.png" alt="Logo">
         <el-input class="search" v-model="searchText" placeholder="搜索邮件"></el-input>
         <el-avatar class="avatar" @click="clickonUser" src="el-icon-user-solid"></el-avatar>
-       
     </header>
 </template>
 <script>
     import router from '@/router/index.js'
     export default {
-        name:'HeaDer',
         methods: {
             clickonUser()
             {
-                router.push({path:'UserProfile'})
+                router.push({path:'/UserProfile'})
             },
         },
         data() {
