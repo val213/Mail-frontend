@@ -22,6 +22,7 @@ export const UserRegister = async (username, password,telephone,verifyCode) =>
             console.error('注册失败:', error.response ? error.response.data : error.message);
             throw error;
         }
+
 };
 export const UserLogin = async (emailAddress, password) =>
 {

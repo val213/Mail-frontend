@@ -2,7 +2,7 @@
   <div class="container">
     <main class="main-content">
       <!-- 主要内容 -->
-      <router-view/>
+        <router-view name="Main"/>
     </main>
   </div>
 </template>

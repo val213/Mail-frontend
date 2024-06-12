@@ -1,11 +1,11 @@
 <template>
-  <MainPage/>
+    <RouterView name="top"/>
+    
 </template>
 
 <script setup>
-import MainPage from "@/Page/MainPage.vue";
 
-
+import {  RouterView } from 'vue-router'
 
 </script>
 

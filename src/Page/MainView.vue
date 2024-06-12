@@ -1,12 +1,13 @@
-<script>
+<script >
     export default {
-        name: "ForgetPasswordPage"
+    
+    
+    
     }
 </script>
 <template>
-    <div>
-        
-    </div>
+    <div>hahahahahah</div>
+    
 </template>
 <style scoped>
 </style>
