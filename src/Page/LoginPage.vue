@@ -38,8 +38,13 @@ const Login = async () =>
         // 调用服务中的方法
         const response = await UserLogin(emailAddress, password);
         console.log(response);
-          await router.push({path:'/MainPage'})
+        // 获取后端发过来的jwt
+        const jwt = response.data.data;
+        console.log(jwt); // 打印或处理JWT
+        // 存储JWT，使用localStorage
+        localStorage.setItem('userToken', jwt);
         toast.success('登录成功');
+        await router.push({path:'/MainPage'})
     } catch (error)
     {
         console.log(error);

@@ -11,16 +11,17 @@
       <el-table-column prop="theme" label="主题"></el-table-column>
       <el-table-column prop="sendTime" label="发送时间" width="180">
           
-          <template #default="scope">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star=0" @click="handleStar(scope.row.id)">
-  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-</svg>
-           <svg width="24" height="24" viewBox="0 0 24 24" fill="yellow" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star=1"
-                @click="handleCancelStar(scope.row.id)">
-  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-           </svg></template>
+        <template #default="scope">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star == 0" @click="handleStar(scope.row.id)">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+  </svg>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="yellow" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star == 1"
+       @click="handleCancelStar(scope.row.id)">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+  </svg>
+</template>
       </el-table-column>
     </el-table>
     <!-- <el-empty description="没有邮件"
