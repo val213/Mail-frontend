@@ -1,38 +1,74 @@
 <template>
-    <div>
-        <div>
-            <button @click="sendEmail">发送</button>
-            <button>定时发送</button>
-            <button>存草稿</button>
-            <button>关闭</button>
-        </div>
-        <label for="targetEmailAddress">收件人:</label><br>
-        <input type="text" id="targetEmailAddress" v-model="targetEmailAddress"><br>
-        <label for="lname">主题</label><br>
-        <input type="text" id="lname" v-model="theme"><br>
-        <input
-            type="file"
-            id="profile_pic"
-            name="profile_pic"
-            @change="uploadfile"
-            accept=".jpg, .jpeg, .png"
-        />
-        <div style="border: 1px solid #ccc; margin-top: 10px">
-            <!-- 工具栏 -->
-            <Toolbar
-                style="border-bottom: 1px solid #ccc"
-                :editor="editor"
-                :defaultConfig="toolbarConfig"
-            />
-            <!-- 编辑器 -->
-            <Editor
-                style="height: 400px; overflow-y: hidden"
-                :defaultConfig="editorConfig"
-                v-model="html"
+    <div style="padding-top: 20px;padding-left: 20px">
+        <table>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <div style="">
+                        <button @click="sendEmail">发送</button>
+                        <button>定时发送</button>
+                        <button>存草稿</button>
+                        <button>关闭</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="  vertical-align: top;
+    text-align: right;padding-right:5px;color: #1f74c0; ">收件人
+                </td>
+                <td><input style='width: 150%' type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
+            </tr>
+            <tr>
+                <td style="  vertical-align: top;
+    text-align: right;padding-right:5px;color: #1f74c0;">主题
+                </td>
+                <td><input style='width: 150%' type="text" id="lname" v-model="theme"><br></td>
+            </tr>
+            <tr>
+                <td style="
+    text-align: right;padding-right:5px;color: #1f74c0;">
+                    <el-upload
+                        :before-upload="uploadfile"
+                        multiple
+                        :limit="3"
+                    >
+                        <a>附件</a>
+                    </el-upload>
+                </td><td> <span v-if="File.length===0">暂无附件</span>
+                    <div v-for="(file,index) in File" :key="index" style="background-color: #cce2fa">
+                        <span> {{
+                                file.name
+                            }}<span style="font-size:10px;color: #2e353a">({{ file.size }}MB)</span></span>
+                        <el-link
+                            @click="deleteFile(index)">删除
+                        </el-link>
+                    </div></td>
+            </tr>
            
-                @onCreated="onCreated"
-            />
-        </div>
+            <tr>
+                <td style="  vertical-align: top;
+    text-align: right;padding-top: 10px;color: #1f74c0;padding-right:5px">正文:
+                </td>
+                <td>
+                    <div style="border: 1px solid #ccc; margin-top: 10px;width:150%">
+                        <!-- 工具栏 -->
+                        <Toolbar
+                            style="border-bottom: 1px solid #ccc"
+                            :editor="editor"
+                            :defaultConfig="toolbarConfig"
+                        />
+                        <!-- 编辑器 -->
+                        <Editor
+                            style="height: 600px; overflow-y: hidden"
+                            :defaultConfig="editorConfig"
+                            v-model="html"
+                            @onCreated="onCreated"
+                        />
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </template>
 <script>
@@ -43,10 +79,12 @@
     
     export default {
         name: "MyEditor",
+        computed: {},
         components: {Editor, Toolbar},
-        setup() {
+        setup()
+        {
             const toast = useToast();
-            return { toast };
+            return {toast};
         },
         data()
         {
@@ -55,7 +93,8 @@
                 html: "<p></p>",
                 toolbarConfig: {
                     // toolbarKeys: [ /* 显示哪些菜单，如何排序、分组 */ ],
-                    // excludeKeys: [ /* 隐藏哪些菜单 */ ],
+                    excludeKeys: ['group-video',
+                        'group-image', 'blockquote', 'headerSelect', 'todo', 'fullScreen'],
                 },
                 editorConfig: {
                     placeholder: "请输入内容...",
@@ -64,6 +103,7 @@
                     MENU_CONF: {}
                 },
                 multipartFile: new FormData(),
+                File: [],
                 senderId: localStorage.getItem('senderId'),
                 targetEmailAddress: '',
                 theme: '',
@@ -77,9 +117,9 @@
                 this.editor = Object.seal(editor);
             }
             ,
-          
             sendEmail()
-            { const editor = this.editor
+            {
+                const editor = this.editor
                 const data = {
                     multipartFile: this.multipartFile,
                     senderId: this.senderId,
@@ -87,7 +127,6 @@
                     theme: editor.getHtml(),
                     content: this.content,
                 }
-               
                 axios({
                     method: "post",
                     url: '/mail/send',
@@ -109,44 +148,55 @@
                 })
             }
             ,
-            uploadfile(event)
+            uploadfile(file)
             {
-                const file = event.target.file
                 if (file)
                 {
-                    this.multipartFile.append('file', file)
+                    this.multipartFile.append(`${file.name}`, file)
+                    this.File.push({name: file.name, size: (file.size / 10000).toFixed(2)});
                 }
             }
-            ,
-            showSuccessToast(message) {
-            this.toast.success(message, {
-                timeout: 3000,
-                closeOnClick: true,
-                pauseOnHover: true,
-                position: 'top-center',
-            });
-            //  ElMessage({
-            //   message: message,
-            //   type: 'success',
-            //   duration: 3000,
-            //   showClose: true,
-            //   center: true,
-            // });
+            , deleteFile(index)
+            {
+                // 移除指定索引的文件
+                this.multipartFile.delete(`${ this.File[index].name}`);
+               
+                this.File.splice(index, 1);
+                
+                
+                
             },
-            showErrorToast(message) {
-            this.toast.error(message, {
-                timeout: 3000,
-                closeOnClick: true,
-                pauseOnHover: true,
-                position: 'top-center',
-            });
-            //  ElMessage({
-            //   message: message,
-            //   type: 'error',
-            //   duration: 3000,
-            //   showClose: true,
-            //   center: true,
-            // });
+            showSuccessToast(message)
+            {
+                this.toast.success(message, {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    position: 'top-center',
+                });
+                //  ElMessage({
+                //   message: message,
+                //   type: 'success',
+                //   duration: 3000,
+                //   showClose: true,
+                //   center: true,
+                // });
+            },
+            showErrorToast(message)
+            {
+                this.toast.error(message, {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    position: 'top-center',
+                });
+                //  ElMessage({
+                //   message: message,
+                //   type: 'error',
+                //   duration: 3000,
+                //   showClose: true,
+                //   center: true,
+                // });
             }
         }
         ,
@@ -157,7 +207,8 @@
         beforeUnmount()
         {
             const editor = this.editor;
-            if (editor == null) {
+            if (editor == null)
+            {
                 return;
             }
             editor.destroy(); // 组件销毁时，及时销毁 editor ，重要！！！
@@ -166,4 +217,5 @@
     }
     ;
 </script>
-<style src="@wangeditor/editor/dist/css/style.css"></style>
+<style src="@wangeditor/editor/dist/css/style.css">
+</style>
