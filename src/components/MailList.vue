@@ -182,7 +182,7 @@ export default {
                     }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    if (res.status === 200)
                     {
                         this.getEmails()
                         
@@ -195,17 +195,16 @@ export default {
         
       },
        handleStar(a){
-        const ids=[a]
+        const ids=a
         axios({
                     method: "put",
                     url: "/mail/star",
-                     data:ids,
-                    headers: {
-                        'Content-Type': 'application/json'
+                    params:{
+                      ids,
                     }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    if (res.status === 200)
                     {
                         this.getEmails()
                         
@@ -219,17 +218,16 @@ export default {
         
        },
       handleCancelStar(a){
-        const ids=[a]
+        const ids=a
         axios({
                     method: "put",
                     url: "/mail/cancelstar",
-                     data:ids,
-                    headers: {
-                        'Content-Type': 'application/json'
+                    params:{
+                      ids,
                     }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    if (res.status === 200)
                     {
                         this.getEmails()
                         
