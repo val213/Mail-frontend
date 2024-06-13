@@ -29,7 +29,7 @@
                 <td style="
     text-align: right;padding-right:5px;color: #1f74c0;">
                     <el-upload
-                        :before-upload="uploadfile"
+                        :before-upload="uploadFiles"
                         multiple
                         :limit="3"
                     >
@@ -157,11 +157,12 @@
                     }
                 })
             },
-            uploadFiles(event) {
-                const files = event.target.files; // 正确获取文件列表
-                if (files) {
+            uploadFiles(file) {
+                // const files = event.target.files; // 正确获取文件列表
+                if (file) {
                     // 使用扩展运算符将新选择的文件追加到multipleFiles数组中
-                    this.multipleFiles = [...this.multipleFiles, ...Array.from(files)];
+                    this.multipleFiles.push(file);
+                    this.File.push({name: file.name, size: (file.size / 10000).toFixed(2)});
                 }
             },
             showSuccessToast(message) {
