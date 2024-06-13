@@ -7,15 +7,22 @@
         <el-table-column prop="senderUsername" label="发件人" width="180"></el-table-column>
         <el-table-column prop="receiverUsername" label="收件人" width="180"></el-table-column>
         <el-table-column prop="theme" label="主题"></el-table-column>
-        <el-table-column prop="sendTime" label="发送时间" width="180">
-          <template #default="scope">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star == 0" @click="handleStar(scope.row.id)">
+        <el-table-column prop="sendTime" label="发送时间" width="180"> 
+        <template #default="scope">
+          <div class="star-container">
+            {{scope.row.sendTime}}
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5"
+              stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star===0"
+              @click="handleStar(scope.row.id)">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="yellow" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star == 1" @click="handleCancelStar(scope.row.id)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="yellow" stroke="currentColor" stroke-width="0.5"
+              stroke-linecap="round" stroke-linejoin="round" v-if="scope.row.star===1"
+              @click="handleCancelStar(scope.row.id)">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
             </svg>
-          </template>
+          </div>
+        </template>
         </el-table-column>
       </el-table>
       <el-pagination
@@ -250,4 +257,14 @@ export default {
 </script>
 
 <style scoped>
+ .star-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.star-container svg {
+  margin-left: auto;
+}
 </style>
