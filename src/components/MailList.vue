@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div><el-button @click="handleDelete">删除</el-button><el-button>标记为星标</el-button></div>
   <div>
     <el-table :data="Emails" style="width: 100%" @row-dblclick="handleRowDblclick" @selection-change="handleSelectionChange">
@@ -37,8 +38,8 @@
       layout="total, prev, pager, next, jumper"
       :total="total"></el-pagination>
     </div>
-    
- 
+    <el-empty v-else description="没有邮件" image="https://cdn-icons-png.flaticon.com/128/4076/4076559.png"></el-empty>
+  </div>
 </template>
 
 <script>
@@ -193,7 +194,7 @@ export default {
                     }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    if (res.status === 200)
                     {
                         this.getEmails()
                         
@@ -206,17 +207,16 @@ export default {
         
       },
        handleStar(a){
-        const ids=[a]
+        const ids=a
         axios({
                     method: "put",
                     url: "/mail/star",
-                     data:ids,
-                    headers: {
-                        'Content-Type': 'application/json'
+                    params:{
+                      ids,
                     }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    if (res.status === 200)
                     {
                         this.getEmails()
                         
@@ -230,17 +230,16 @@ export default {
         
        },
       handleCancelStar(a){
-        const ids=[a]
+        const ids=a
         axios({
                     method: "put",
                     url: "/mail/cancelstar",
-                     data:ids,
-                    headers: {
-                        'Content-Type': 'application/json'
+                    params:{
+                      ids,
                     }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    if (res.status === 200)
                     {
                         this.getEmails()
                         
@@ -263,4 +262,14 @@ export default {
 </script>
 
 <style scoped>
+ .star-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.star-container svg {
+  margin-left: auto;
+}
 </style>

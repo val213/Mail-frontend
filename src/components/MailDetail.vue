@@ -85,12 +85,11 @@
                 axios({
                     method: "get",
                     url: `/mail/maildetails/${mailId}`,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
                 }).then((res) =>
                 {
-                    if (res.data.status === 'success')
+                    // 打印返回的数据
+                    console.log(res);
+                    if (res.status === 200)
                     {
                         this.senderMessage = res.data.data.sender;
                         this.receiverMessage = res.data.data.receiver;

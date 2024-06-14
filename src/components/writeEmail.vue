@@ -29,7 +29,7 @@
                 <td style="
     text-align: right;padding-right:5px;color: #1f74c0;">
                     <el-upload
-                        :before-upload="uploadfile"
+                        :before-upload="uploadFiles"
                         multiple
                         :limit="3"
                     >
@@ -102,9 +102,9 @@
                     // 所有的菜单配置，都要在 MENU_CONF 属性下
                     MENU_CONF: {}
                 },
-                multipartFile: new FormData(),
+                multipleFiles: [],
                 File: [],
-                senderId: localStorage.getItem('senderId'),
+                senderId: localStorage.getItem('userId'),
                 targetEmailAddress: '',
                 theme: '',
                 content: '',
@@ -118,21 +118,31 @@
             }
             ,
             sendEmail()
-            {
-                const editor = this.editor
-                const data = {
-                    multipartFile: this.multipartFile,
-                    senderId: this.senderId,
-                    targetEmailAddress: this.targetEmailAddress,
-                    theme: editor.getHtml(),
-                    content: this.content,
+            { const editor = this.editor
+                // 创建一个FormData实例
+                let formData = new FormData();
+
+                
+                this.multipleFiles.forEach((file) => {
+                    // 为每个文件使用相同的键名 "multipleFiles"
+                    // 服务器端可以根据这个键名接收到一个文件数组
+                    formData.append('multipleFiles', file);
+                });
+                // 添加其他表单字段
+                formData.append('senderId', this.senderId);
+                formData.append('targetEmailAddress', this.targetEmailAddress);
+                formData.append('theme', this.theme); // 使用theme字段作为邮件主题
+                formData.append('content', editor.getHtml()); // 使用editor.getHtml()获取的HTML内容作为邮件内容
+                // 打印日志检查 formData中的每个字段的值
+                for (let pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
                 }
                 axios({
                     method: "post",
                     url: '/mail/send',
-                    data: data,
+                    data: formData,
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'multipart/form-data'
                     }
                 }).then((res) =>
                 {
@@ -146,41 +156,29 @@
                         this.showErrorToast('发送失败');
                     }
                 })
-            }
-            ,
-            uploadfile(file)
-            {
-                if (file)
-                {
-                    this.multipartFile.append(`${file.name}`, file)
+            },
+            uploadFiles(file) {
+                // const files = event.target.files; // 正确获取文件列表
+                if (file) {
+                    // 使用扩展运算符将新选择的文件追加到multipleFiles数组中
+                    this.multipleFiles.push(file);
                     this.File.push({name: file.name, size: (file.size / 10000).toFixed(2)});
                 }
-            }
-            , deleteFile(index)
-            {
-                // 移除指定索引的文件
-                this.multipartFile.delete(`${ this.File[index].name}`);
-               
-                this.File.splice(index, 1);
-                
-                
-                
             },
-            showSuccessToast(message)
-            {
-                this.toast.success(message, {
-                    timeout: 3000,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    position: 'top-center',
-                });
-                //  ElMessage({
-                //   message: message,
-                //   type: 'success',
-                //   duration: 3000,
-                //   showClose: true,
-                //   center: true,
-                // });
+            showSuccessToast(message) {
+            this.toast.success(message, {
+                timeout: 3000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                position: 'top-center',
+            });
+            //  ElMessage({
+            //   message: message,
+            //   type: 'success',
+            //   duration: 3000,
+            //   showClose: true,
+            //   center: true,
+            // });
             },
             showErrorToast(message)
             {

@@ -21,7 +21,7 @@
 </script>
 <template>
     <div>StarEmail</div>
-    <MailList/>
+    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialType="3" />
 </template>
 <style scoped>
 </style>

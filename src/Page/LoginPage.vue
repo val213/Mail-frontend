@@ -44,6 +44,8 @@ const Login = async () =>
         // 存储JWT，使用localStorage
         localStorage.setItem('userToken', jwt);
         toast.success('登录成功');
+        // 存储用户id
+        localStorage.setItem('userId', response.data.data.id);
         await router.push({path:'/MainPage'})
     } catch (error)
     {
