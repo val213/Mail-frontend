@@ -38,7 +38,7 @@
       layout="total, prev, pager, next, jumper"
       :total="total"></el-pagination>
     </div>
-    <el-empty v-else description="没有邮件" image="https://cdn-icons-png.flaticon.com/128/4076/4076559.png"></el-empty>
+    <el-empty  description="没有邮件" image="https://cdn-icons-png.flaticon.com/128/4076/4076559.png"></el-empty>
   </div>
 </template>
 
