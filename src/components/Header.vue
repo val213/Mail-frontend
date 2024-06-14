@@ -13,7 +13,7 @@
         methods: {
             clickonUser()
             {
-                router.push({path:'/UserProfile'})
+                router.push({name:'UserProfile'})
             },
         },
         data() {
