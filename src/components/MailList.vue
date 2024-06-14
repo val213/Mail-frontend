@@ -78,7 +78,8 @@ export default {
       type: this.initialType,
       Emails: [],
       total: 0,
-      Emailsbeingchosen: []
+      Emailsbeingchosen: [],
+      // isToastShowing: false  // 添加判断此时有没有标志，防止弹窗多次出现
     }
   },
   methods: {
@@ -143,12 +144,18 @@ export default {
      router.push({ name: 'MailDetail', params: { mailId: row.id } });
     },
     showSuccessToast(message) {
+      // if (this.isToastShowing) {
+      //   this.toast.clear();
+      // }
+      // this.isToastShowing = true;
       this.toast.success(message, {
-        timeout: 3000,
+        timeout: 1000,
         closeOnClick: true,
         pauseOnHover: true,
-        position: 'top-center',
+        position: 'top-right',
+        // onClose: () => { this.isToastShowing = false; }  // 提示关闭时重置标志
       });
+      
       //  ElMessage({
       //   message: message,
       //   type: 'success',
@@ -158,12 +165,17 @@ export default {
       // });
     },
     showErrorToast(message) {
-      this.toast.error(message, {
-        timeout: 3000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        position: 'top-center',
-      });
+    // if (this.isToastShowing) {
+    //   this.toast.dismiss(this.toast);
+    // }
+    // this.isToastShowing = true;
+    this.toast.error(message, {
+      timeout: 1000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      position: 'top-right',
+      // onClose: () => { this.isToastShowing = false; }  // 提示关闭时重置标志
+    });
       //  ElMessage({
       //   message: message,
       //   type: 'error',
