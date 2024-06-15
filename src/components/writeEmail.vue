@@ -156,6 +156,11 @@
                         this.showErrorToast('发送失败');
                     }
                 })
+                .catch(error =>
+                {
+                    console.error('发送邮件失败', error);
+                    this.showErrorToast('发送邮件失败');
+                });
             },
             uploadFiles(file) {
                 // const files = event.target.files; // 正确获取文件列表

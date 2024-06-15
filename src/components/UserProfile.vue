@@ -47,6 +47,7 @@
         this.isEditable = false;
       },
       toLogin() {
+        localStorage.clear();
         router.push({path:'/Login'})
       }
     },

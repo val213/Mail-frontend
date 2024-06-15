@@ -39,8 +39,8 @@ const Login = async () =>
         const response = await UserLogin(emailAddress, password);
         console.log(response);
         // 获取后端发过来的jwt
-        const jwt = response.data.data;
-        console.log(jwt); // 打印或处理JWT
+        const jwt = response.data.token;
+        console.log("获得jwt:",jwt); // 打印或处理JWT
         // 存储JWT，使用localStorage
         localStorage.setItem('userToken', jwt);
         toast.success('登录成功');
