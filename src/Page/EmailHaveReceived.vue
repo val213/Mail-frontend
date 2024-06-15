@@ -1,5 +1,5 @@
 <template>
-    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialType="2" />
+    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialType="2" :initialDraft="0"/>
 </template>
 
 <script>

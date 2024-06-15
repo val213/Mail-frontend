@@ -7,7 +7,7 @@
         <span>发件人:{{senderMessage}}</span><br>
          <span>发送时间:{{sendTime}}</span><br>
         <span>收件人:{{receiverMessage}}</span><br>
-        <span>附件: {{attachments.length}}个</span>
+        <span>附件: {{attachments ? attachments.length : 0}}个</span>
       <div style="border: 1px solid #ccc; margin-top: 10px">
            
             <Editor
@@ -21,7 +21,7 @@
     <div>
        <span>附件</span><br>
          <div v-for="item in attachments" :key="item.id">
-             <span>{{item.fileName}}({{item.fileSize}})</span>
+             <span>{{item.fileName}}({{item.size}}KB)</span>
              <span>下载链接</span><el-link >{{item.downloadUrl}}</el-link>
          </div><br>
     </div>
@@ -39,12 +39,13 @@
         data()
         {
             return {
-                 editor: null,
+                editorReady: false,
+                editor: null,
                 html: "<p></p>",
                
                 editorConfig: {
                     placeholder: "暂无数据",
-                     readOnly: true,
+                    readOnly: true,
                     // autoFocus: false,
                     // 所有的菜单配置，都要在 MENU_CONF 属性下
                     MENU_CONF: {}
@@ -53,16 +54,17 @@
                 //这里的content代表邮件内容，可以被Ai子组件接收
                 content: '邮件内容',
                 // 邮件详情数据
-                senderMessage: '不知道什么形式'
-                ,
+                senderMessage: '不知道什么形式',
                 receiverMessage: "不知道什么形式",
                 subject: "第一封邮件",
                 sendTime: '先写个今天',
                 attachments: [],
+
             }
         },
         created()
         {
+            this.editorReady = true;
             this.loadMailDetail();
         },
          beforeUnmount()
@@ -91,14 +93,13 @@
                     console.log(res);
                     if (res.status === 200)
                     {
-                        this.senderMessage = res.data.data.sender;
-                        this.receiverMessage = res.data.data.receiver;
+                        this.senderMessage = res.data.data.senderName;
+                        this.receiverMessage = res.data.data.receiverName;
                         this.subject = res.data.data.subject;
                         this.content = res.data.data.content;
                         this.sendTime = res.data.data.sendTime;
                         this.attachments = res.data.data.attachments;
                         this.html=this.content;
-                        
                     } else
                     {
                         console.log('获取失败' + res.data.message);

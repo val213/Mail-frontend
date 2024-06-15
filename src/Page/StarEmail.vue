@@ -1,3 +1,6 @@
+<template>
+    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialStar="1" />
+</template>
 <script>
     import MailList from "@/components/MailList.vue";
     export default {
@@ -19,9 +22,6 @@
         
     }
 </script>
-<template>
-    <div>StarEmail</div>
-    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialType="3" />
-</template>
+
 <style scoped>
 </style>

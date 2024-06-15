@@ -8,8 +8,7 @@
     }
 </script>
 <template>
-    <div>Draft</div>
-    <MailList/>
+    <MailList :initialDraft="1"/>
 </template>
 <style scoped>
 </style>
