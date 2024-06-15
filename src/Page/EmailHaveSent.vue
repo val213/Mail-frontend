@@ -18,7 +18,7 @@
         fetchUserInfo() {
             // 假设有一个方法来获取用户信息
             // 这里简化为直接赋值
-            this.userId = '7'; // 假设的用户ID
+            this.userId = localStorage.getItem('userId');
         }
     },
     created() {

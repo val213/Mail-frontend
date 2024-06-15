@@ -3,10 +3,10 @@
         <AiMailContentSummarize :mailContent="content"></AiMailContentSummarize>
     </div>
     <div>
-        <h1>{{subject}}</h1><br>
-        <span>发件人{{senderMessage}}</span><br>
-         <span>发送时间{{sendTime}}</span><br>
-        <span>收件人{{receiverMessage}}</span>
+        <h1>{{subject}}</h1>
+        <span>发件人:{{senderMessage}}</span><br>
+         <span>发送时间:{{sendTime}}</span><br>
+        <span>收件人:{{receiverMessage}}</span><br>
         <span>附件: {{attachments.length}}个</span>
       <div style="border: 1px solid #ccc; margin-top: 10px">
            
@@ -53,11 +53,11 @@
                 //这里的content代表邮件内容，可以被Ai子组件接收
                 content: '邮件内容',
                 // 邮件详情数据
-                senderMessage: ''
+                senderMessage: '不知道什么形式'
                 ,
-                receiverMessage: "",
-                subject: "",
-                sendTime: '',
+                receiverMessage: "不知道什么形式",
+                subject: "第一封邮件",
+                sendTime: '先写个今天',
                 attachments: [],
             }
         },
