@@ -1,5 +1,5 @@
 <template>
-    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialType="1" />
+    <MailList :initialUserId="userId" :initialPageNumber="1" :initialPageSize="30" :initialType="1" :initialDraft="0"/>
 </template>
 
 <script>
@@ -17,8 +17,7 @@
     methods: {
         fetchUserInfo() {
             // 假设有一个方法来获取用户信息
-            // 这里简化为直接赋值
-            this.userId = '7'; // 假设的用户ID
+            this.userId = localStorage.getItem('userId');
         }
     },
     created() {

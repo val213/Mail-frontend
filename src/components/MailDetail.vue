@@ -67,6 +67,7 @@
         data()
         {
             return {
+                editorReady: false,
                 editor: null,
                 html: "<p></p>",
                 editorConfig: {
@@ -79,18 +80,17 @@
                 //这里的content代表邮件内容，可以被Ai子组件接收
                 content: '邮件内容',
                 // 邮件详情数据
-                senderMessage: '不知道什么形式'
-                ,
+                senderMessage: '不知道什么形式',
                 receiverMessage: "不知道什么形式",
                 subject: "第一封邮件",
                 sendTime: '先写个今天',
-                attachments: [
-                
-                ],
+                attachments: [],
+
             }
         },
         created()
         {
+            this.editorReady = true;
             this.loadMailDetail();
         },
         beforeUnmount()
@@ -120,13 +120,13 @@
                     console.log(res);
                     if (res.status === 200)
                     {
-                        this.senderMessage = res.data.data.sender;
-                        this.receiverMessage = res.data.data.receiver;
+                        this.senderMessage = res.data.data.senderName;
+                        this.receiverMessage = res.data.data.receiverName;
                         this.subject = res.data.data.subject;
                         this.content = res.data.data.content;
                         this.sendTime = res.data.data.sendTime;
                         this.attachments = res.data.data.attachments;
-                        this.html = this.content;
+                        this.html=this.content;
                     } else
                     {
                         console.log('获取失败' + res.data.message);

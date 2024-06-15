@@ -8,7 +8,7 @@
                     <div style="">
                         <button @click="sendEmail">发送</button>
                         <button>定时发送</button>
-                        <button>存草稿</button>
+                        <button @click="saveDraft">存草稿</button>
                         <button>关闭</button>
                     </div>
                 </td>
@@ -156,6 +156,57 @@
                         this.showErrorToast('发送失败');
                     }
                 })
+                .catch(error =>
+                {
+                    console.error('发送邮件失败', error);
+                    this.showErrorToast('发送邮件失败');
+                });
+            },
+            saveDraft(){
+                const editor = this.editor
+                // 创建一个FormData实例
+                let formData = new FormData();
+
+                
+                this.multipleFiles.forEach((file) => {
+                    // 为每个文件使用相同的键名 "multipleFiles"
+                    // 服务器端可以根据这个键名接收到一个文件数组
+                    formData.append('multipleFiles', file);
+                });
+                // 添加其他表单字段
+                formData.append('senderId', this.senderId);
+                formData.append('targetEmailAddress', this.targetEmailAddress);
+                formData.append('theme', this.theme); // 使用theme字段作为邮件主题
+                formData.append('content', editor.getHtml()); // 使用editor.getHtml()获取的HTML内容作为邮件内容
+                formData.append('draft', 1); // 使用draft字段标记为草稿
+                // 打印日志检查 formData中的每个字段的值
+                for (let pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
+                axios({
+                    method: "post",
+                    url: '/mail/send',
+                    data: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((res) =>
+                {
+                    if (res.data.code === 1)
+                    {
+                        // ElMessage('发送成功')
+                        this.showSuccessToast('保存草稿成功');
+                    } else
+                    {
+                        console.log('保存失败' + res.data.message);
+                        this.showErrorToast('保存失败');
+                    }
+                })
+                .catch(error =>
+                {
+                    console.error('保存草稿失败', error);
+                    this.showErrorToast('保存草稿失败');
+                });
             },
             uploadFiles(file) {
                 // const files = event.target.files; // 正确获取文件列表
