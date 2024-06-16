@@ -1,9 +1,9 @@
 <template>
-    <el-affix :offset="120">
-        <el-button type="primary" @click="open" round>
+  
+        <button @click="open" >
             Ai总结
-        </el-button>
-    </el-affix>
+        </button>
+    
 </template>
 
 <script>
