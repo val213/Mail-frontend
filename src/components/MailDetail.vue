@@ -20,7 +20,7 @@
                     receiverMessage
                 }}</span><br>
             <span style="color: #7f7f7f;font-size:small;font-weight: lighter;padding-left: 20px">附件:&nbsp;{{
-                    attachments.length
+                    attachments ? attachments.length : 0
                 }}个</span></div>
         <div style="border: 1px solid #ccc;">
             <Editor
@@ -32,7 +32,7 @@
         </div>
     </div>
   
-        <div style="background-color: #b9d7f1;padding-left: 2px" v-if="attachments.length>0">附件</div>
+        <div style="background-color: #b9d7f1;padding-left: 2px" v-if="attachments ? attachments.length : 0>0">附件</div>
         <div style="border: 2px solid #b9d7f1;" v-for="item in attachments" :key="item.id">
             <table>
                 <tr>
@@ -122,7 +122,7 @@
                     {
                         this.senderMessage = res.data.data.senderName;
                         this.receiverMessage = res.data.data.receiverName;
-                        this.subject = res.data.data.subject;
+                        this.subject = res.data.data.theme;
                         this.content = res.data.data.content;
                         this.sendTime = res.data.data.sendTime;
                         this.attachments = res.data.data.attachments;
