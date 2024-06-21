@@ -133,6 +133,9 @@
                 formData.append('targetEmailAddress', this.targetEmailAddress);
                 formData.append('theme', this.theme); // 使用theme字段作为邮件主题
                 formData.append('content', editor.getHtml()); // 使用editor.getHtml()获取的HTML内容作为邮件内容
+                formData.append('draft', 0); // 使用draft字段标记为非草稿
+                formData.append('junk', 0); // 使用junk字段标记为非垃圾邮件
+                formData.append('isread', 1); // 使用isread字段标记为已读
                 // 打印日志检查 formData中的每个字段的值
                 for (let pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
@@ -179,6 +182,8 @@
                 formData.append('theme', this.theme); // 使用theme字段作为邮件主题
                 formData.append('content', editor.getHtml()); // 使用editor.getHtml()获取的HTML内容作为邮件内容
                 formData.append('draft', 1); // 使用draft字段标记为草稿
+                formData.append('junk', 0); // 使用junk字段标记为非垃圾邮件
+                formData.append('isread', 1); // 使用isread字段标记为已读
                 // 打印日志检查 formData中的每个字段的值
                 for (let pair of formData.entries()) {
                     console.log(pair[0] + ', ' + pair[1]);
