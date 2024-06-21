@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div><el-button @click="handleDelete">删除</el-button><el-button>标记为星标</el-button></div>
+    <div><el-button @click="handleDelete">删除</el-button><el-button>标记为星标</el-button><el-button>切换已读状态</el-button></div>
     <div v-if="Emails.length > 0">
-      <el-table :data="Emails" style="width: 100%" @row-dblclick="handleRowDblclick" @selection-change="handleSelectionChange">
+      <el-table :data="Emails" :row-style="getRowStyle" style="width: 100%"  @row-dblclick="handleRowDblclick" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="senderUsername" label="发件人" width="180"></el-table-column>
         <el-table-column prop="receiverUsername" label="收件人" width="180"></el-table-column>
         <el-table-column prop="theme" label="主题"></el-table-column>
+        <el-table-column prop="summary" label="摘要"></el-table-column>
         <el-table-column prop="sendTime" label="发送时间" width="180">
           <template #default="scope">
             <div class="star-container">
@@ -153,6 +154,25 @@ export default {
       // 假设每封邮件的唯一标识符是id，并且它是row对象的一个属性
       // 跳转到邮件详情页面，并将邮件ID作为参数传递
      router.push({ name: 'MailDetail', params: { mailId: row.id } });
+     // 设置邮件为已读
+     const mailId = row.id
+     axios({
+      method: "put",
+      url: `/mail/read/${mailId}`,
+      }).then((res) => {
+        if (res.status === 200) {
+          console.log('设置邮件为已读成功');
+          this.showSuccessToast('设置邮件为已读成功');
+          this.getEmails();
+        } else {
+          console.log('设置邮件为已读失败' + mailId);
+          this.showErrorToast('设置邮件为已读失败');
+        }
+      }).catch(error => {
+        console.error('请求设置邮件为已读失败', error);
+        console.log('设置邮件为已读失败' + mailId);
+        this.showErrorToast('请求设置邮件为已读失败');
+      });
     },
     showSuccessToast(message) {
       // if (this.isToastShowing) {
@@ -268,6 +288,13 @@ export default {
                     }
                 })
         
+      },
+      getRowStyle(row) {
+        if (row.row.read == 1) {
+          return { backgroundColor: 'white' }; // 已读邮件的背景色
+        } else{
+          return { backgroundColor: 'lightgray' }; // 未读邮件的背景色
+        }
       },
     },
   
