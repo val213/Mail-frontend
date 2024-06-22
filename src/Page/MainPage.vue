@@ -46,16 +46,17 @@
                 Emails: [
                     {
                         id: 1,
-                        senderUsername: 'user_2424',
+                        senderUsername: 'lihengjin',
                         receiverUsername: 'user_9328',
                         theme: 'Meeting',
                         sendTime: '2023-05-02T10:30:00',
                         star: 0,
-                        read: 1
+                        read: 1,
+                        draft:1
                     },
                     {
                         id: 2,
-                        senderUsername: 'user_4582',
+                        senderUsername: 'lihengjin',
                         receiverUsername: 'user_2713',
                         theme: 'Vacation',
                         sendTime: '2023-04-21T14:45:00',
@@ -65,7 +66,7 @@
                     {
                         id: 3,
                         senderUsername: 'user_7936',
-                        receiverUsername: 'user_1762',
+                       receiverUsername: 'lihengjin',
                         theme: 'Project Update',
                         sendTime: '2023-05-16T12:15:00',
                         star: 0,
@@ -74,7 +75,7 @@
                     {
                         id: 4,
                         senderUsername: 'user_8476',
-                        receiverUsername: 'user_5432',
+                        receiverUsername: 'lihengjin',
                         theme: 'Feedback',
                         sendTime: '2023-05-09T17:00:00',
                         star: 1,
@@ -82,7 +83,7 @@
                     },
                     {
                         id: 5,
-                        senderUsername: 'user_3218',
+                        senderUsername: 'lihengjin',
                         receiverUsername: 'user_4567',
                         theme: 'Reminder',
                         sendTime: '2023-04-15T11:00:00',
@@ -100,7 +101,7 @@
                     },
                     {
                         id: 7,
-                        senderUsername: 'user_9876',
+                        senderUsername: 'lihengjin',
                         receiverUsername: 'user_1234',
                         theme: 'Project Update',
                         sendTime: '2023-05-03T13:45:00',
@@ -312,6 +313,8 @@
         mounted()
         {
             localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(this.Emails))
+            let a={username:'lihengjin',emailAddress:'dwadawdawdawd'}
+             localStorage.setItem('用户信息',JSON.stringify(a))
             this.setEmails()
             ; //初始获取一次邮件列表
             this.intervalId = setInterval(this.getEmails, 10000); // 每10秒获取一次邮件列表,同时相当于每十秒重连一次

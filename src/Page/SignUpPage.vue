@@ -48,6 +48,8 @@
            if(response.data === 'success')
            {
              toast.success('注册成功');
+             let a={username:username,emailAddress:response.data.data}
+             localStorage.setItem('用户信息',JSON.stringify(a))
            }
            else{
              toast.error('注册失败');
