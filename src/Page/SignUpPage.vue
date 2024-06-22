@@ -10,8 +10,8 @@
               <input type="password" placeholder="确认密码" v-model="confirmPassword" @input="ifSame"/>
               <input type="text" placeholder="手机号" v-model="telephone"/>
               <div class="phone">
-                <input type="text" placeholder="验证码" v-model="verification_code"/>
-                <button class="sendCode" @click="ask_for_send_verification_code">发送验证码</button>
+                <input type="text" placeholder="验证码" v-model="verifycode"/>
+                <button class="sendCode" @click.prevent="ask_for_send_verification_code">发送验证码</button>
               </div>
               <div class="signUpBtn" @click="signUp()" >注册</div>
               <button class="goToLogin" @click="turnToLoginPage">已有账号？去登陆</button>
@@ -41,32 +41,84 @@
     const toast = useToast();
 
     let same = ref(false)
-    const signUp = () =>
-    {
-            // 调用服务中的方法
-            const response = UserRegister(username, password,telephone,verifycode);
-           if(response.data === 'success')
-           {
-             toast.success('注册成功');
-             let a={username:username,emailAddress:response.data.data}
-             localStorage.setItem('用户信息',JSON.stringify(a))
-           }
-           else{
-             toast.error('注册失败');
-           }
-            console.log("返回内容"+response.data)
-           
-       
-    };
+    const signUp = async () => {
+      // 验证表单是否合法
+      if (telephone.value.length !== 11)
+        {
+            toast.error('请输入正确的手机号');
+            return;
+        }else if(username.value.length === 0)
+        {
+            toast.error('请输入用户名');
+            return;
+        }else if(password.value.length === 0)
+        {
+            toast.error('请输入密码');
+            return;
+        }else if(confirmPassword.value.length === 0)
+        {
+            toast.error('请确认密码');
+            return;
+        }else if(verifycode.value.length === 0)
+        {
+            toast.error('请输入验证码');
+            return;
+        }else if(!same.value)
+        {
+            toast.error('两次输入的密码不一致');
+            return;
+        }
+  try {
+    // 调用服务中的方法，并等待响应
+    const response = await UserRegister(username, password, telephone, verifycode);
+    console.log(response);
+    if (response.code === 1) {
+      toast.success('注册成功');
+      // 告知用户返回的邮箱地址
+      toast.info('您的邮箱地址是' + response.data.emailAddress + "快去登录吧~", {
+        position: "top-right", // Possible values: "top-right", "top-center", "top-left", "bottom-right", "bottom-center", "bottom-left"
+        timeout: 7000 // Duration in milliseconds
+      });
+      // 跳转到登录页面
+      await router.push({ path: '/Login' });
+    } else {
+      toast.error('注册失败');
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error('注册过程中出现错误');
+  }
+};
     const ifSame = () =>
     {
         same.value = password.value === confirmPassword.value
     }
-    const ask_for_send_verification_code = () =>
+    const ask_for_send_verification_code = async() =>
     {
-        console.log('点击了发送验证码按钮'+telephone.value);
-        const response = SendVerificationcode(telephone);
-        if (response.data === 'success')
+        // 验证表单是否合法
+        if (telephone.value.length !== 11)
+        {
+            toast.error('请输入正确的手机号');
+            return;
+        }else if(username.value.length === 0)
+        {
+            toast.error('请输入用户名');
+            return;
+        }else if(password.value.length === 0)
+        {
+            toast.error('请输入密码');
+            return;
+        }else if(confirmPassword.value.length === 0)
+        {
+            toast.error('请确认密码');
+            return;
+        }
+
+
+        console.info('点击了发送验证码按钮'+telephone.value);
+        const response = await SendVerificationcode(telephone.value);
+        console.info("请求发送验证码的响应", response.data);
+        if (response.data.status === 200)
         {
             console.log('发送验证码成功');
             toast.success('发送验证码成功');

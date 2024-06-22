@@ -9,7 +9,7 @@
                         <button @click="sendEmail">发送</button>
                         <button>定时发送</button>
                         <button @click="saveDraft">存草稿</button>
-                        <button>关闭</button>
+                        <button @click="close">关闭</button>
                     </div>
                 </td>
             </tr>
@@ -263,7 +263,11 @@
                 //   showClose: true,
                 //   center: true,
                 // });
-            }
+            },
+            close()
+            {
+                this.$router.push('/mainpage')
+            },
         }
         ,
         mounted()
