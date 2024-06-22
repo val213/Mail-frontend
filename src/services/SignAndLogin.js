@@ -8,11 +8,12 @@ export const UserRegister = async (username, password,telephone,verifyCode) =>
             username: username.value,
             password: password.value,
             telephone: telephone.value,
-            verifyCode: verifyCode.value,
-        };    console.log('请求体:', SignUpMessage);
+        };
+        console.log('请求体:', SignUpMessage);
+        console.log('验证码:', verifyCode.value);
 
         try {
-            const response = await axios.post('/user/register', SignUpMessage, {
+            const response = await axios.post(`/user/register?verifycode=${encodeURIComponent(verifyCode.value)}`, SignUpMessage,{
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -59,16 +60,16 @@ export const UserLogin = async (emailAddress, password) =>
 export const SendVerificationcode = async(telephone) =>
 {
     console.log(telephone);
-    try
-    {
+        console.log('请求手机号:', telephone);
         // 使用 axios.post 方法进行用户登录
        const response=await axios({
             method: 'post',
             url: '/user/sendverifycode',
             params: {
-                telephone: telephone.value,
+                telephone,
             }
         });
+        console.log(response);
         if(response.status===200){
 
             // 注册成功时的处理逻辑
@@ -81,11 +82,7 @@ export const SendVerificationcode = async(telephone) =>
             console.error('验证码发送失败:', response.statusText);
             return response; // 抛出错误，以便外部可以捕获
         }
-    } catch (error)
-    {
-        console.error('验证码发送失败:', error);
-        throw error; // 抛出错误，以便外部可以捕获
-    }
+
 }
 
 
