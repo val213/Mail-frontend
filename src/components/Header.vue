@@ -22,12 +22,13 @@
             </el-descriptions-item>
             <el-descriptions-item label=" 邮箱地址 ">
             <el-tag size="small"  v-if="address"> {{address}} </el-tag>
-            </el-descriptions-item> 
+            </el-descriptions-item>
         </el-descriptions>
 </template>
 <script>
     import router from '@/router/index.js'
     import axios from 'axios'
+    import emitter from '@/services/event_bus.js'
     export default {
         data() {
             return {
@@ -37,6 +38,8 @@
                 searchText: '',
                 allEmails: [],  
                 // filteredEmails: [], // 用于存储过滤后的邮件列表  
+               
+                imageurl:localStorage.getItem(localStorage.getItem('userId'))
             };
         },
         methods: {
@@ -115,13 +118,21 @@
         created() {  
             // 在组件创建时获取邮件  
             this.fetchEmails(this.$route.path);  
+
+            emitter.on('refreshing',(data)=>{
+                if(data){
+                 
+                 this.   imageurl=localStorage.getItem(localStorage.getItem('userId'))
+                }
+                
+                
+            })
         },
         mounted() {
             this.username = this.getUsername();
             this.address = this.getEmailAddress();
         }
     }
-    
     
 </script>
 <style scoped>

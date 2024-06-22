@@ -17,11 +17,17 @@
                 <td style="  vertical-align: top;
     text-align: right;padding-right:5px;color: #1f74c0; ">收件人
                 </td>
-                <td><input style='width: 150%' type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
+                <td><input style='width: 100vw' type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
             </tr>
             <tr>
                 <td style="  vertical-align: top;
     text-align: right;padding-right:5px;color: #1f74c0;">主题
+                </td>
+                <td><input style='width: 150%' type="text" id="lname" v-model="theme"><br></td>
+            </tr>
+            <tr>
+                <td style="  vertical-align: top;
+    text-align: right;padding-right:5px;color: #1f74c0;">抄送
                 </td>
                 <td><input style='width: 150%' type="text" id="lname" v-model="theme"><br></td>
             </tr>
@@ -35,7 +41,8 @@
                     >
                         <a>附件</a>
                     </el-upload>
-                </td><td> <span v-if="File.length===0">暂无附件</span>
+                </td>
+                <td><span v-if="File.length===0">暂无附件</span>
                     <div v-for="(file,index) in File" :key="index" style="background-color: #cce2fa">
                         <span> {{
                                 file.name
@@ -43,9 +50,9 @@
                         <el-link
                             @click="deleteFile(index)">删除
                         </el-link>
-                    </div></td>
+                    </div>
+                </td>
             </tr>
-           
             <tr>
                 <td style="  vertical-align: top;
     text-align: right;padding-top: 10px;color: #1f74c0;padding-right:5px">正文:
@@ -118,12 +125,12 @@
             }
             ,
             sendEmail()
-            { const editor = this.editor
+            {
+                const editor = this.editor
                 // 创建一个FormData实例
                 let formData = new FormData();
-
-                
-                this.multipleFiles.forEach((file) => {
+                this.multipleFiles.forEach((file) =>
+                {
                     // 为每个文件使用相同的键名 "multipleFiles"
                     // 服务器端可以根据这个键名接收到一个文件数组
                     formData.append('multipleFiles', file);
@@ -137,7 +144,8 @@
                 formData.append('junk', 0); // 使用junk字段标记为非垃圾邮件
                 formData.append('isread', 1); // 使用isread字段标记为已读
                 // 打印日志检查 formData中的每个字段的值
-                for (let pair of formData.entries()) {
+                for (let pair of formData.entries())
+                {
                     console.log(pair[0] + ', ' + pair[1]);
                 }
                 axios({
@@ -159,19 +167,19 @@
                         this.showErrorToast('发送失败');
                     }
                 })
-                .catch(error =>
-                {
-                    console.error('发送邮件失败', error);
-                    this.showErrorToast('发送邮件失败');
-                });
+                    .catch(error =>
+                    {
+                        console.error('发送邮件失败', error);
+                        this.showErrorToast('发送邮件失败');
+                    });
             },
-            saveDraft(){
+            saveDraft()
+            {
                 const editor = this.editor
                 // 创建一个FormData实例
                 let formData = new FormData();
-
-                
-                this.multipleFiles.forEach((file) => {
+                this.multipleFiles.forEach((file) =>
+                {
                     // 为每个文件使用相同的键名 "multipleFiles"
                     // 服务器端可以根据这个键名接收到一个文件数组
                     formData.append('multipleFiles', file);
@@ -185,7 +193,8 @@
                 formData.append('junk', 0); // 使用junk字段标记为非垃圾邮件
                 formData.append('isread', 1); // 使用isread字段标记为已读
                 // 打印日志检查 formData中的每个字段的值
-                for (let pair of formData.entries()) {
+                for (let pair of formData.entries())
+                {
                     console.log(pair[0] + ', ' + pair[1]);
                 }
                 axios({
@@ -207,34 +216,37 @@
                         this.showErrorToast('保存失败');
                     }
                 })
-                .catch(error =>
-                {
-                    console.error('保存草稿失败', error);
-                    this.showErrorToast('保存草稿失败');
-                });
+                    .catch(error =>
+                    {
+                        console.error('保存草稿失败', error);
+                        this.showErrorToast('保存草稿失败');
+                    });
             },
-            uploadFiles(file) {
+            uploadFiles(file)
+            {
                 // const files = event.target.files; // 正确获取文件列表
-                if (file) {
+                if (file)
+                {
                     // 使用扩展运算符将新选择的文件追加到multipleFiles数组中
                     this.multipleFiles.push(file);
                     this.File.push({name: file.name, size: (file.size / 10000).toFixed(2)});
                 }
             },
-            showSuccessToast(message) {
-            this.toast.success(message, {
-                timeout: 3000,
-                closeOnClick: true,
-                pauseOnHover: true,
-                position: 'top-center',
-            });
-            //  ElMessage({
-            //   message: message,
-            //   type: 'success',
-            //   duration: 3000,
-            //   showClose: true,
-            //   center: true,
-            // });
+            showSuccessToast(message)
+            {
+                this.toast.success(message, {
+                    timeout: 3000,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    position: 'top-center',
+                });
+                //  ElMessage({
+                //   message: message,
+                //   type: 'success',
+                //   duration: 3000,
+                //   showClose: true,
+                //   center: true,
+                // });
             },
             showErrorToast(message)
             {
