@@ -35,7 +35,7 @@ const constantRoutes = [
             {
                 path: '',
                 components:
-                    {Main: writeEmail,}
+                    {Main: EmailHaveReceived,}
             },
             {
                 path: 'writeEmail',

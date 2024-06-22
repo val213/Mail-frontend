@@ -66,6 +66,10 @@ export default {
     initialDraft:{
       type:Number,
       default: null
+    },
+    initialJunk:{
+      type:Number,
+      default: 0
     }
   },
   setup() {
@@ -82,6 +86,7 @@ export default {
       star:this.initialStar,
       readis:this.initialRead,
       draft: this.initialDraft,
+      junk: this.initialJunk,
       Emails: [],
       total: 0,
       Emailsbeingchosen: [],
@@ -101,7 +106,8 @@ export default {
         type: this.type,
         star: this.star,
         readis: this.readis,
-        draft: this.draft
+        draft: this.draft,
+        junk: this.junk
       });
       const data = {
         userId: this.userId,
@@ -110,7 +116,8 @@ export default {
         type: this.type,
         star: this.star,
         readis: this.readis,
-        draft: this.draft
+        draft: this.draft,
+        junk: this.junk
       }
       
       axios({
@@ -154,25 +161,30 @@ export default {
       // 假设每封邮件的唯一标识符是id，并且它是row对象的一个属性
       // 跳转到邮件详情页面，并将邮件ID作为参数传递
      router.push({ name: 'MailDetail', params: { mailId: row.id } });
-     // 设置邮件为已读
-     const mailId = row.id
-     axios({
-      method: "put",
-      url: `/mail/read/${mailId}`,
-      }).then((res) => {
-        if (res.status === 200) {
-          console.log('设置邮件为已读成功');
-          this.showSuccessToast('设置邮件为已读成功');
-          this.getEmails();
-        } else {
+     // 如果邮件未读，设置邮件为已读
+      if (row.read == 0 || row.read == null) {
+        const mailId = row.id
+        this.setMailRead(mailId);
+      }
+    },
+    setMailRead(mailId){
+      axios({
+        method: "put",
+        url: `/mail/read/${mailId}`,
+        }).then((res) => {
+          if (res.status === 200) {
+            console.log('设置邮件为已读成功');
+            this.showSuccessToast('设置邮件为已读成功');
+            this.getEmails();
+          } else {
+            console.log('设置邮件为已读失败' + mailId);
+            this.showErrorToast('设置邮件为已读失败');
+          }
+        }).catch(error => {
+          console.error('请求设置邮件为已读失败', error);
           console.log('设置邮件为已读失败' + mailId);
-          this.showErrorToast('设置邮件为已读失败');
-        }
-      }).catch(error => {
-        console.error('请求设置邮件为已读失败', error);
-        console.log('设置邮件为已读失败' + mailId);
-        this.showErrorToast('请求设置邮件为已读失败');
-      });
+          this.showErrorToast('请求设置邮件为已读失败');
+        });
     },
     showSuccessToast(message) {
       // if (this.isToastShowing) {
@@ -222,50 +234,79 @@ export default {
         })
   },
       handleDelete(){
+        // 判断当前所处的页面是否是垃圾箱页面
         const ids=this.Emailsbeingchosen
-         axios({
-                    method: "delete",
-                    url: "/mail/delete",
-                     data:ids,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then((res) =>
-                {
-                    if (res.status === 200)
-                    {
-                        this.getEmails()
-                        
-                    } else
-                    {
-                        console.log('删除失败' + res.data.message);
-                       
-                    }
-                })
-        
+        if (this.$route.name === 'JunkMailBox') {
+          // 询问用户是否选择永久删除
+          this.$confirm('此操作将永久删除选中的邮件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.deleteEmails(ids);
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        } else {
+          // 后端会自动识别邮件是否被标记为废弃并将邮件移动到垃圾箱
+          this.deleteEmails(ids);
+        }
       },
-       handleStar(a){
+      deleteEmails(ids) {
+        // 使用 encodeURIComponent 确保每个ID都被正确编码
+        const encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
+
+        axios({
+          method: "delete",
+          url: "/mail/delete",
+          params: {
+            // 直接传递编码后的ID数组
+            'ids': encodedIds,
+          },
+          paramsSerializer: params => {
+            // 使用自定义序列化函数来构造查询字符串
+            return Object.keys(params)
+              .map(key => `${key}=${params[key].join(',')}`)
+              .join('&');
+          }
+        }).then((res) => {
+          if (res.status === 200) {
+            // 处理成功的响应
+            console.log('删除邮件成功');
+            this.toast.success('删除邮件成功', {
+              timeout: 1000,
+              closeOnClick: true,
+              pauseOnHover: true,
+              position: 'top-right',
+            });
+            this.getEmails();
+          }
+        }).catch(error => {
+          // 处理错误
+          console.error("Error deleting emails:", error);
+        });
+      },
+      handleStar(a){
         const ids=a
         axios({
-                    method: "put",
-                    url: "/mail/star",
-                    params:{
-                      ids,
-                    }
-                }).then((res) =>
-                {
-                    if (res.status === 200)
-                    {
-                        this.getEmails()
-                        
-                    } else
-                    {
-                        console.log('删除失败' + res.data.message);
-                       
-                    }
-                })
-        
-        
+          method: "put",
+          url: "/mail/star",
+          params:{
+            ids,
+          }
+      }).then((res) =>
+      {
+        if (res.status === 200)
+        {
+          this.getEmails()
+        } else
+        {
+          console.log('删除失败' + res.data.message);
+        }
+      })
        },
       handleCancelStar(a){
         const ids=a
