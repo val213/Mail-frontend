@@ -27,7 +27,6 @@
 </template>
 <script>
     import router from '@/router/index.js'
-    import axios from 'axios'
     import emitter from '@/services/event_bus.js'
     export default {
         data() {
@@ -35,7 +34,6 @@
                 searchText: '',
                 username: '',
                 address: '',
-                searchText: '',
                 allEmails: [],  
                 // filteredEmails: [], // 用于存储过滤后的邮件列表  
                
@@ -55,44 +53,50 @@
                 // 调用 callback 返回建议列表的数据  
                 cb(results);  
             },  
-            handleSelect(item) {  
-                // 这里处理选择后的操作
-                console.log(item);  
-            },  
-            fetchEmails(path) {  
-                let postData = {
-                    "type": null, // 1 或者 2，取决于你是想按发送者还是接收者查询
-                    "userId": 7,//怎么获取？？？？？？？
-                    "pageNumber": 1, // 页码
-                    "pageSize": 10000 ,// 每页显示的记录数
-                    "star": null,
-                    "readis": null,
-                    "draft": null
-                };
-    
-                // 根据路由的不同设置readis的值  
-                if (path === '/MainPage/EmailHaveSent') {  
-                    postData.type = 1; 
-                } 
-                else if (path === '/MainPage/EmailHaveReceived') {  
-                    postData.type = 2; 
-                } 
-                else if (path === '/MainPage/StarEmail') {  
-                    postData.star = 1;
-                } 
-                else if (path === '/MainPage/DraftBox') {  
-                    postData.draft = 1;
+            handleSelect(row) {  
+                // 这里处理选择后的操作，待完善
+                console.log(row);  
+                router.push({name: 'MailDetail', params: {mailId: row.id}});
+                if (row.read == 0 || row.read == null)
+                {
+                    const mailId = row.id
+                    this.setMailRead(mailId);
                 }
-    
-                // 发送POST请求  
-                axios.post('/mail/view', postData)
-                    .then(response => {  
-                        this.allEmails = response.data.data.records;
-                    })  
-                    .catch(error => {  
-                        console.error(error);  
-                    });  
-            }
+            },  
+            fetchEmails() {  
+                let emails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`));//获取全部邮件
+                //这里对缓存里的进行过滤，以显示需要的
+                let emailfordifferenttype=[]
+                
+                for(let i =0;i<emails.length;i++)
+                {
+                    /*console.log(JSON.parse(localStorage.getItem('用户信息')).username,emails[i].senderUsername,emails[i].receiverUsername)*/
+                    if(this.star===1&&emails[i].star===1)
+                    {
+                        emailfordifferenttype.push(emails[i])
+                    }else
+                        if(this.type===1&&emails[i].senderUsername===localStorage.getItem(`${localStorage.getItem('userId')}username`)){
+                        
+                         emailfordifferenttype.push(emails[i])
+                    }else
+                        if(this.type===2&&emails[i].receiverUsername===localStorage.getItem(`${localStorage.getItem('userId')}username`)){
+                         
+                         emailfordifferenttype.push(emails[i])
+                    }else if(this.draft===1&&emails[i].draft===1)
+                        {
+                            emailfordifferenttype.push(emails[i])
+                        }
+                    
+                } this.total = emailfordifferenttype.length
+                this.allEmails = []
+                for(let i =0;i<this.total;i++)
+                {
+                    if (emailfordifferenttype[i])
+                    {
+                        this.allEmails.push(emailfordifferenttype[i])
+                    }
+                }
+            },
             getUsername() {
             // 检查localStorage是否可用
             if (typeof localStorage !== 'undefined') {
@@ -111,13 +115,13 @@
             },
         }, 
         watch: {  
-            '$route'(to) { // 监听路由变化  
-                this.fetchEmails(to.path);  
+            '$route'() { // 监听路由变化  
+                this.fetchEmails();  
             }  
         },  
         created() {  
             // 在组件创建时获取邮件  
-            this.fetchEmails(this.$route.path);  
+            this.fetchEmails();  
 
             emitter.on('refreshing',(data)=>{
                 if(data){
