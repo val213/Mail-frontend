@@ -43,6 +43,7 @@
         {
             return {
                 userId: '',
+                //测试数据，不喜删除
                 Emails: [
                     {
                         id: 1,
@@ -321,7 +322,7 @@
             },
         },
         mounted()
-        {
+        {   //要联网的话下面这两句需要删掉
             localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(this.Emails))
              localStorage.setItem(`${localStorage.getItem('userId')}username`, 'lihengjin');
             this.setEmails()
