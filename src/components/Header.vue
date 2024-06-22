@@ -4,21 +4,39 @@
         <!-- 横幅或导航栏内容 -->
         <img class="logo" src="@/assets/logo.png" alt="Logo">
         <el-input class="search" v-model="searchText" placeholder="搜索邮件"></el-input>
-        <el-avatar class="avatar" @click="clickonUser" src="el-icon-user-solid"></el-avatar>
+        <el-avatar class="avatar" @click="clickonUser" :src="imageurl"></el-avatar>
     </header>
 </template>
 <script>
     import router from '@/router/index.js'
+import emitter from '@/services/event_bus.js'
     export default {
+        
+    
+        
         methods: {
             clickonUser()
             {
                 router.push({name:'UserProfile'})
             },
+            
+        },
+        created()
+        {
+            emitter.on('refreshing',(data)=>{
+                if(data){
+                 
+                 this.   imageurl=localStorage.getItem(localStorage.getItem('userId'))
+                }
+                
+                
+            })
+            
         },
         data() {
         return {
-            searchText: ''
+            searchText: '',
+            imageurl:localStorage.getItem(localStorage.getItem('userId'))
         };
     }
     }
