@@ -150,6 +150,7 @@
                 pageSize: 2000,
                 type: 1,
                 intervalId: null,
+                latestemailid:0
             }
         },
         methods: {
@@ -179,6 +180,8 @@
                         console.log('后台刷新邮件成功');
                         this.Emails = res.data.data.records;
                         localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(this.Emails))
+                        //确定最新的邮件的id
+                        this.latestemailid=this.Emails[0].id
                         this.total = res.data.data.total;
                         console.log('邮件列表', this.Emails);
                     } else
@@ -188,6 +191,8 @@
                 }).catch(error =>
                 {
                     console.error('后台刷新失败', error);
+                    //刚登录就断网的情况几乎不会出现
+                    this.Emails=JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`))
                 });
             },
             getEmails()
@@ -215,6 +220,7 @@
                     {
                         console.log('后台刷新邮件成功');
                         this.comparation(res.data.data.records)
+                        this.needtodealwith()
                         console.log('邮件列表', this.Emails);
                     } else
                     {
@@ -224,7 +230,10 @@
                 {
                     console.error('后台刷新失败', error);
                 });
-                //这里处理离线未处理的操作如删除星标
+              
+            },
+            needtodealwith(){
+                  //这里处理离线未处理的操作如删除星标
                 let needtodealwith =
                     JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
                 if (needtodealwith.length > 0)
@@ -292,13 +301,14 @@
                     needtodealwith = [];
                     localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
                 }
+                
             },
             comparation(a)
             {
                 if (a.length === 0)
                 {
                     console.log('没有邮件')
-                } else if (a[0].id > this.Emails[0].id)
+                } else if (a[0].id > this.latestemailid)
                 {
                     ElNotification({
                         title: '新邮件到达',
@@ -313,8 +323,7 @@
         mounted()
         {
             localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(this.Emails))
-            let a={username:'lihengjin',emailAddress:'dwadawdawdawd'}
-             localStorage.setItem('用户信息',JSON.stringify(a))
+             localStorage.setItem(`${localStorage.getItem('userId')}username`, 'lihengjin');
             this.setEmails()
             ; //初始获取一次邮件列表
             this.intervalId = setInterval(this.getEmails, 10000); // 每10秒获取一次邮件列表,同时相当于每十秒重连一次

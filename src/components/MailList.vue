@@ -133,11 +133,11 @@
                     {
                         emailfordifferenttype.push(emails[i])
                     }else
-                        if(this.type===1&&emails[i].senderUsername===localStorage.getItem('username')){
+                        if(this.type===1&&emails[i].senderUsername===localStorage.getItem(`${localStorage.getItem('userId')}username`)){
                         
                          emailfordifferenttype.push(emails[i])
                     }else
-                        if(this.type===2&&emails[i].receiverUsername===localStorage.getItem('username')){
+                        if(this.type===2&&emails[i].receiverUsername===localStorage.getItem(`${localStorage.getItem('userId')}username`)){
                          
                          emailfordifferenttype.push(emails[i])
                     }else if(this.draft===1&&emails[i].draft===1)

@@ -27,6 +27,8 @@ import emitter from '@/services/event_bus.js'
                 searchText: '',
                 username: '',
                 address: '',
+               
+            imageurl:localStorage.getItem(localStorage.getItem('userId'))
             };
         },
         methods: {
@@ -68,12 +70,7 @@ import emitter from '@/services/event_bus.js'
             })
             
         },
-        data() {
-        return {
-            searchText: '',
-            imageurl:localStorage.getItem(localStorage.getItem('userId'))
-        };
-    }
+       
     }
 </script>
 <style scoped>
