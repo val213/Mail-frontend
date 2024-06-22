@@ -31,27 +31,25 @@
             />
         </div>
     </div>
-  
-        <div style="background-color: #b9d7f1;padding-left: 2px" v-if="attachments ? attachments.length : 0>0">附件</div>
-        <div style="border: 2px solid #b9d7f1;" v-for="item in attachments" :key="item.id">
-            <table>
-                <tr>
-                    <td><img src="http://hbimg.huaban.com/b7f755b76d18c7880c043cb2d34f3319856cd5b39b73-hDUrzm"
-                             alt="Big Boat"
-                             style="width: 30px;height: 30px"/></td>
-                    <td><span style="font-size:10px" >{{ item.fileName }}</span><span
-                        style="color: #7f7f7f;font-size:9px">({{
-                            item.size
-                        }})</span><br>
-                        <span style="color: #7f7f7f;font-size:8px">下载链接</span>
-                        <el-link style="color: #4036ff;font-size:8px" :href="item.downloadUrl" target="_blank">
-                            {{ item.downloadUrl }}
-                        </el-link>
-                        </td>
-                </tr>
-            </table>
-        </div>
-    
+    <div style="background-color: #b9d7f1;padding-left: 2px" v-if="attachments ? attachments.length : 0>0">附件</div>
+    <div style="border: 2px solid #b9d7f1;" v-for="item in attachments" :key="item.id">
+        <table>
+            <tr>
+                <td><img src="http://hbimg.huaban.com/b7f755b76d18c7880c043cb2d34f3319856cd5b39b73-hDUrzm"
+                         alt="Big Boat"
+                         style="width: 30px;height: 30px"/></td>
+                <td><span style="font-size:10px">{{ item.fileName }}</span><span
+                    style="color: #7f7f7f;font-size:9px">({{
+                        item.size
+                    }})</span><br>
+                    <span style="color: #7f7f7f;font-size:8px">下载链接</span>
+                    <el-link style="color: #4036ff;font-size:8px" :href="item.downloadUrl" target="_blank">
+                        {{ item.downloadUrl }}
+                    </el-link>
+                </td>
+            </tr>
+        </table>
+    </div>
 </template>
 <script>
     import AiMailContentSummarize from './AiMailContentSummarize.vue';
@@ -85,7 +83,6 @@
                 subject: "第一封邮件",
                 sendTime: '先写个今天',
                 attachments: [],
-
             }
         },
         created()
@@ -109,34 +106,79 @@
                 this.editor = Object.seal(editor);
             },
             loadMailDetail()
-            {
+            {    //增加判断是否有保存在缓存里，有则用，没有再调用接口
+                let emaildetails = localStorage.getItem(`${localStorage.getItem('userId')}emaildetails`) || []
                 const mailId = this.$route.params.mailId;
-                axios({
-                    method: "get",
-                    url: `/mail/maildetails/${mailId}`,
-                }).then((res) =>
+                let b = 0;
+                if (emaildetails.length > 0)
                 {
-                    // 打印返回的数据
-                    console.log(res);
-                    if (res.status === 200)
+                    for (let i = 0; i < emaildetails.length; i++)
                     {
-                        this.senderMessage = res.data.data.senderName;
-                        this.receiverMessage = res.data.data.receiverName;
-                        this.subject = res.data.data.theme;
-                        this.content = res.data.data.content;
-                        this.sendTime = res.data.data.sendTime;
-                        this.attachments = res.data.data.attachments;
-                        this.html=this.content;
-                    } else
-                    {
-                        console.log('获取失败' + res.data.message);
+                        if (mailId == emaildetails[i].mailId)
+                        {
+                            this.senderMessage = emaildetails[i].senderName;
+                            this.receiverMessage = emaildetails[i].receiverName;
+                            this.subject = emaildetails[i].theme;
+                            this.content = emaildetails[i].content;
+                            this.sendTime = emaildetails[i].sendTime;
+                            this.attachments = emaildetails[i].attachments;
+                            this.html = this.content;
+                            b += 1;
+                        }
                     }
-                })
-                mailId && console.log('加载邮件详情', mailId);
+                }
+                if (emaildetails.length === 0 || b === 0)
+                {
+                    axios({
+                        method: "get",
+                        url: `/mail/maildetails/${mailId}`,
+                    }).then((res) =>
+                    {
+                        // 打印返回的数据
+                        console.log(res);
+                        if (res.status === 200)
+                        {
+                            this.senderMessage = res.data.data.senderName;
+                            this.receiverMessage = res.data.data.receiverName;
+                            this.subject = res.data.data.theme;
+                            this.content = res.data.data.content;
+                            this.sendTime = res.data.data.sendTime;
+                            this.attachments = res.data.data.attachments;
+                            this.html = this.content;
+                            //本地存储
+                            let emaildetail = res.data.data
+                            emaildetails.push(emaildetail)
+                            localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`, emaildetails)
+                        } else
+                        {
+                            console.log('获取失败' + res.data.message);
+                        }
+                    }).catch((error) =>
+                    {
+                        console.log('无法连接网络且本地未缓存'+error);
+                        ElMessage('无法连接网络且本地未缓存')
+                        this.goback()
+                    })
+                    mailId && console.log('加载邮件详情', mailId);
+                }
             },
             goback()
             {
                 router.back()
+            },
+            //顺便删除本地缓存里的记录
+            handledeletelocalstorge()
+            {
+                let emaildetails = localStorage.getItem(`${localStorage.getItem('userId')}emaildetails`) || []
+                const mailId = this.$route.params.mailId;
+                for (let i = 0; i < emaildetails.length; i++)
+                {
+                    if (mailId == emaildetails[i].mailId)
+                    {
+                        emaildetails[i].splice(i, 1)
+                    }
+                }
+                localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`, emaildetails)
             },
             handledelete()
             {
@@ -153,6 +195,7 @@
                     {
                         ElMessage({message: '删除成功', type: 'success'})
                         this.goback()
+                        this.handledeletelocalstorge()
                     } else
                     {
                         console.log('删除失败' + res.data.message);

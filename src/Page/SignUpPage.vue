@@ -94,7 +94,7 @@
         same.value = password.value === confirmPassword.value
     }
     const ask_for_send_verification_code = async() =>
-    { 
+    {
         // 验证表单是否合法
         if (telephone.value.length !== 11)
         {

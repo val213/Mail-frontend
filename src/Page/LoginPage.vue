@@ -44,12 +44,14 @@ const Login = async () =>
         // 存储JWT，使用localStorage
         localStorage.setItem('userToken', jwt);
         toast.success('登录成功');
+        
         // 存储用户id
         localStorage.setItem('userId', response.data.data.id);
         // 存储用户名
-        localStorage.setItem('username', response.data.data.username);
+        localStorage.setItem(`${localStorage.getItem('userId')}username`,
+            response.data.data.username);
         // 存储邮箱地址
-        localStorage.setItem('emailAddress', response.data.data.emailAddress);
+        localStorage.setItem(`${localStorage.getItem('userId')}emailAddress`, response.data.data.emailAddress);
         await router.push({path:'/MainPage'})
     } catch (error)
     {

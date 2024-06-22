@@ -15,17 +15,20 @@
             </el-descriptions-item>
             <el-descriptions-item label=" 邮箱地址 ">
             <el-tag size="small"  v-if="address"> {{address}} </el-tag>
-            </el-descriptions-item> 
+            </el-descriptions-item>
         </el-descriptions>
 </template>
 <script>
     import router from '@/router/index.js'
+import emitter from '@/services/event_bus.js'
     export default {
         data() {
             return {
                 searchText: '',
                 username: '',
                 address: '',
+               
+            imageurl:localStorage.getItem(localStorage.getItem('userId'))
             };
         },
         methods: {
@@ -53,8 +56,22 @@
     mounted() {
         this.username = this.getUsername();
         this.address = this.getEmailAddress();
+        
+        },
+        created()
+        {
+            emitter.on('refreshing',(data)=>{
+                if(data){
+                 
+                 this.   imageurl=localStorage.getItem(localStorage.getItem('userId'))
+                }
+                
+                
+            })
+            
+        },
+       
     }
-}
 </script>
 <style scoped>
     .header
