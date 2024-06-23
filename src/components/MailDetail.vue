@@ -83,6 +83,7 @@
                 subject: "第一封邮件",
                 sendTime: '先写个今天',
                 attachments: [],
+                junk: this.$route.params.junk
             }
         },
         created()
@@ -107,14 +108,15 @@
             },
             loadMailDetail()
             {    //增加判断是否有保存在缓存里，有则用，没有再调用接口
-                let emaildetails = localStorage.getItem(`${localStorage.getItem('userId')}emaildetails`) || []
+                let emaildetails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}emaildetails`))
+                    || []
                 const mailId = this.$route.params.mailId;
                 let b = 0;
                 if (emaildetails.length > 0)
                 {
                     for (let i = 0; i < emaildetails.length; i++)
                     {
-                        if (mailId == emaildetails[i].mailId)
+                        if (mailId == emaildetails[i].id)
                         {
                             this.senderMessage = emaildetails[i].senderName;
                             this.receiverMessage = emaildetails[i].receiverName;
@@ -124,11 +126,14 @@
                             this.attachments = emaildetails[i].attachments;
                             this.html = this.content;
                             b += 1;
+                            console.log('本地有缓存该邮件详情信息，不执行请求')
+                            break;
                         }
                     }
                 }
                 if (emaildetails.length === 0 || b === 0)
                 {
+                    console.log('本地没有缓存该邮件详情信息，现在执行请求')
                     axios({
                         method: "get",
                         url: `/mail/maildetails/${mailId}`,
@@ -148,14 +153,15 @@
                             //本地存储
                             let emaildetail = res.data.data
                             emaildetails.push(emaildetail)
-                            localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`, emaildetails)
+                            localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`,
+                                JSON.stringify(emaildetails))
                         } else
                         {
                             console.log('获取失败' + res.data.message);
                         }
                     }).catch((error) =>
                     {
-                        console.log('无法连接网络且本地未缓存'+error);
+                        console.log('无法连接网络且本地未缓存' + error);
                         ElMessage('无法连接网络且本地未缓存')
                         this.goback()
                     })
@@ -166,36 +172,65 @@
             {
                 router.back()
             },
-            //顺便删除本地缓存里的记录
-            handledeletelocalstorge()
+            handlellocalstoragedelete()
             {
-                let emaildetails = localStorage.getItem(`${localStorage.getItem('userId')}emaildetails`) || []
+                let emails =
+                    JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`)) || []
+                let junkboxs =
+                    JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`)) || []
                 const mailId = this.$route.params.mailId;
-                for (let i = 0; i < emaildetails.length; i++)
+                console.log(mailId)
+                let isjunk = 1;
+                for (let i = 0; i < emails.length; i++)
                 {
-                    if (mailId == emaildetails[i].mailId)
+                    if (mailId == emails[i].id)
                     {
-                        emaildetails[i].splice(i, 1)
+                        junkboxs.push(emails[i])
+                        emails.splice(i, 1)
+                        isjunk -= 1
+                        localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`, JSON.stringify(emails))
+                        localStorage.setItem(`${localStorage.getItem('userId')}JunkMailBox`, JSON.stringify(junkboxs))
+                       return 0;
                     }
                 }
-                localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`, emaildetails)
+                if (isjunk === 1)
+                {
+                    let emaildetails =
+                        JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}emaildetails`)) || []
+                    for (let i = 0; i < emaildetails.length; i++)
+                    {
+                        if (mailId == emaildetails[i].id)
+                        {
+                            emaildetails.splice(i, 1)
+                        }
+                    }
+                    for (let i = 0; i < junkboxs.length; i++)
+                    {
+                        if (junkboxs[i] == mailId)
+                        {
+                            junkboxs.splice(i, 1)
+                        }
+                    }
+                    localStorage.setItem(`${localStorage.getItem('userId')}emaildetails`, JSON.stringify(emaildetails))
+                    localStorage.setItem(`${localStorage.getItem('userId')}JunkMailBox`, JSON.stringify(junkboxs))
+                }
             },
             handledelete()
             {
                 axios({
                     method: "delete",
                     url: "/mail/delete",
-                    params: this.$route.params.mailId,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    params: {ids: this.$route.params.mailId},
                 }).then((res) =>
                 {
                     if (res.status === 200)
                     {
                         ElMessage({message: '删除成功', type: 'success'})
-                        this.goback()
-                        this.handledeletelocalstorge()
+                        this.handlellocalstoragedelete()
+                        setTimeout(() =>
+                        {
+                            this.goback()
+                        }, 50)
                     } else
                     {
                         console.log('删除失败' + res.data.message);

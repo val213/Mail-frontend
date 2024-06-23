@@ -19,7 +19,7 @@
         methods: {
             initiate()
             {
-                this.junkmail = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`)) || []
+                this.junkmail = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`))
             },
             handleSelectionChange(selection)
             {
@@ -59,16 +59,11 @@
                             {
                                 for (let i = 0; i < this.junkmail.length; i++)
                                 {
-                                    if (ids[i] == this.junkmail[i].id)
+                                    if (ids[j] == this.junkmail[i].id)
                                     {
                                         this.junkmail.splice(i, 1)
                                         //更新垃圾箱缓存
                                      
-                                        let
-                                            needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
-                                        let thing = {ids: ids[i], type: 0}
-                                        needtodealwith.push(thing)
-                                        localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
                                     }
                                 }
                             }
@@ -84,13 +79,13 @@
                     {
                         for (let i = 0; i < this.junkmail.length; i++)
                         {
-                            if (ids[i] == this.junkmail[i].id)
+                            if (ids[j] == this.junkmail[i].id)
                             {
                                 this.junkmail.splice(i, 1)
                                 //更新垃圾箱缓存
                                 let
                                     needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
-                                let thing = {ids: ids[i], type: 0}
+                                let thing = {ids: ids[j], type: 0}
                                 //没有联网时把该删除操作记录到缓存，等网络好时再处理
                                 needtodealwith.push(thing)
                                 localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))

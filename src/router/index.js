@@ -30,6 +30,7 @@ const constantRoutes = [
     },
     {
         path: '/MainPage',
+        name:'MainPage',
         components: {top: MainPage},
         children: [
             {
