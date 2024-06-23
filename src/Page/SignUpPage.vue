@@ -82,7 +82,11 @@
       // 跳转到登录页面
       await router.push({ path: '/Login' });
     } else {
-      toast.error('注册失败');
+      if (response.message === '该用户名已被注册，请重新设置用户名！')
+      {
+        toast.error('用户名已存在');
+      }
+      toast.error('注册失败，请检查您的信息是否正确');
     }
   } catch (error) {
     console.error(error);
