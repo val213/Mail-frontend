@@ -25,12 +25,7 @@
                 </td>
                 <td><input style='width: 150%' type="text" id="lname" v-model="theme"><br></td>
             </tr>
-            <tr>
-                <td style="  vertical-align: top;
-    text-align: right;padding-right:5px;color: #1f74c0;">抄送
-                </td>
-                <td><input style='width: 150%' type="text" id="lname" v-model="theme"><br></td>
-            </tr>
+          
             <tr>
                 <td style="
     text-align: right;padding-right:5px;color: #1f74c0;">
