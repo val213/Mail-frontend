@@ -25,7 +25,12 @@
                 </td>
                 <td><input style="width: 80vw;height:20px" type="text" id="lname" v-model="theme"><br></td>
             </tr>
-          
+            <tr>
+                <td style="  vertical-align: top; padding-top: 10px;
+    text-align: right;padding-right:5px;color: #1f74c0;">CC
+                </td>
+                <td><input style="width: 80vw;height:20px" type="text" id="lname" v-model="ccEmailAddresses"><br></td>
+            </tr>
             <tr>
                 <td style=" padding-top: 10px;
     text-align: right;padding-right:5px;color: #1f74c0;">
@@ -110,6 +115,7 @@
                 targetEmailAddress: '',
                 theme: '',
                 content: '',
+                ccEmailAddresses: '',
             }
         }
         ,
@@ -138,6 +144,7 @@
                 formData.append('draft', 0); // 使用draft字段标记为非草稿
                 formData.append('junk', 0); // 使用junk字段标记为非垃圾邮件
                 formData.append('isread', 1); // 使用isread字段标记为已读
+                formData.append('ccEmailAddresses', this.ccEmailAddresses); // 使用ccEmailAddresses字段标记为抄送
                 // 打印日志检查 formData中的每个字段的值
                 for (let pair of formData.entries())
                 {
@@ -187,6 +194,7 @@
                 formData.append('draft', 1); // 使用draft字段标记为草稿
                 formData.append('junk', 0); // 使用junk字段标记为非垃圾邮件
                 formData.append('isread', 1); // 使用isread字段标记为已读
+                formData.append('ccEmailAddresses', this.ccEmailAddresses); // 使用ccEmailAddresses字段标记为抄送
                 // 打印日志检查 formData中的每个字段的值
                 for (let pair of formData.entries())
                 {

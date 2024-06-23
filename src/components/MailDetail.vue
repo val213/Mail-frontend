@@ -19,6 +19,9 @@
             <span style="color: #7f7f7f;font-size:small;font-weight: lighter;padding-left: 20px">收件人:&nbsp;{{
                     receiverMessage
                 }}</span><br>
+            <span style="color: #7f7f7f;font-size:small;font-weight: lighter;padding-left: 20px">抄送:&nbsp;{{
+                    ccEmailAddresses
+            }}</span><br>
             <span style="color: #7f7f7f;font-size:small;font-weight: lighter;padding-left: 20px">附件:&nbsp;{{
                     attachments ? attachments.length : 0
                 }}个</span></div>
@@ -83,7 +86,8 @@
                 subject: "第一封邮件",
                 sendTime: '先写个今天',
                 attachments: [],
-                junk: this.$route.params.junk
+                junk: this.$route.params.junk,
+                ccEmailAddresses: '',
             }
         },
         created()
@@ -125,6 +129,7 @@
                             this.sendTime = emaildetails[i].sendTime;
                             this.attachments = emaildetails[i].attachments;
                             this.html = this.content;
+                            this.ccEmailAddresses = emaildetails[i].ccEmailAddresses;
                             b += 1;
                             console.log('本地有缓存该邮件详情信息，不执行请求')
                             break;
@@ -150,6 +155,7 @@
                             this.sendTime = res.data.data.sendTime;
                             this.attachments = res.data.data.attachments;
                             this.html = this.content;
+                            this.ccEmailAddresses = res.data.data.ccEmailAddresses;
                             //本地存储
                             let emaildetail = res.data.data
                             emaildetails.push(emaildetail)
