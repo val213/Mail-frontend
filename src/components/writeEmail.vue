@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-top: 10px;padding-left: 20px">
+    <div style="padding-left: 20px">
         <table>
             <tr>
                 <td>
@@ -16,13 +16,14 @@
                 <td style="  vertical-align: top; padding-top: 10px;
     text-align: right;padding-right:5px;color: #1f74c0; ">收件人
                 </td>
-                <td><input style="width: 1400px;height:20px" type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
+                <td><input style="width: 80vw;height:20px" type="text" id="targetEmailAddress"
+                           v-model="targetEmailAddress"></td>
             </tr>
             <tr>
                 <td style="  vertical-align: top; padding-top: 10px;
     text-align: right;padding-right:5px;color: #1f74c0;">主题
                 </td>
-                <td><input style="width: 1400px;height:20px" type="text" id="lname" v-model="theme"><br></td>
+                <td><input style="width: 80vw;height:20px" type="text" id="lname" v-model="theme"><br></td>
             </tr>
           
             <tr>
@@ -49,10 +50,10 @@
             </tr>
             <tr>
                 <td style="  vertical-align: top; padding-top: 10px;
-    text-align: right;padding-top: 10px;color: #1f74c0;padding-right:5px">正文:
+    text-align: right;color: #1f74c0;padding-right:5px">正文:
                 </td>
                 <td>
-                    <div style="border: 1px solid #ccc; margin-top: 10px;width:150%">
+                    <div style="border: 1px solid #ccc; margin-top: 10px;width: 80vw">
                         <!-- 工具栏 -->
                         <Toolbar
                             style="border-bottom: 1px solid #ccc"
@@ -61,7 +62,7 @@
                         />
                         <!-- 编辑器 -->
                         <Editor
-                            style="height: 600px; overflow-y: hidden"
+                            style="height: 30vh; overflow-y: hidden"
                             :defaultConfig="editorConfig"
                             v-model="html"
                             @onCreated="onCreated"

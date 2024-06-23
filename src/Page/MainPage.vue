@@ -3,7 +3,8 @@
         <Header/>
     </div>
     <el-container>
-        <el-aside style="width: 10vw;height:85vh;border: 5px solid #cbe6ff; border-bottom: 2.5px solid #cbe6ff; border-radius: 8px 0 0 0">
+        <el-aside style="width: 10vw;height:99vh;border: 5px solid #cbe6ff; border-bottom: 2.5px solid #cbe6ff;
+        border-radius: 8px 0 0 0">
             <div style=" border-bottom: 2.5px solid #cbe6ff; border-radius: 8px 0 0 0;">
                 <el-menu style=" border-radius: 8px 8px 8px 8px">
                     <el-menu-item index="1" @click="$router.push({name:'writeEmail'})"
