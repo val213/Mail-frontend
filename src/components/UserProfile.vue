@@ -33,8 +33,8 @@
         {
             return {
                 userInfo: {
-                    username: '张三',
-                    email: 'zhangsan@example.com',
+                    username: localStorage.getItem(`${localStorage.getItem('userId')}username`),
+                    email: localStorage.getItem(`${localStorage.getItem('userId')}emailAddress`)
                     // 其他...
                 },
                 image: '',
@@ -101,7 +101,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 700px;
     }
     
     .user-profile
