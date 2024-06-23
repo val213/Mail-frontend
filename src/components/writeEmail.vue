@@ -15,15 +15,15 @@
             </tr>
             <tr>
                 <td style="  vertical-align: top;
-    text-align: right;padding-right:5px;color: #1f74c0; ">收件人
+    text-align: right;padding-right:5px;color: #1f74c0">收件人
                 </td>
-                <td><input style='width: 100vw' type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
+                <td><input style='width:80vw' type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
             </tr>
             <tr>
                 <td style="  vertical-align: top;
     text-align: right;padding-right:5px;color: #1f74c0;">主题
                 </td>
-                <td><input style='width: 150%' type="text" id="lname" v-model="theme"><br></td>
+                <td><input style='width:80vw' type="text" id="lname" v-model="theme"><br></td>
             </tr>
           
             <tr>
@@ -53,7 +53,7 @@
     text-align: right;padding-top: 10px;color: #1f74c0;padding-right:5px">正文:
                 </td>
                 <td>
-                    <div style="border: 1px solid #ccc; margin-top: 10px;width:150%">
+                    <div style="border: 1px solid #ccc; margin-top: 10px;width:80vw">
                         <!-- 工具栏 -->
                         <Toolbar
                             style="border-bottom: 1px solid #ccc"
@@ -167,6 +167,13 @@
                         console.error('发送邮件失败', error);
                         this.showErrorToast('发送邮件失败');
                     });
+            },
+            
+            deleteFile(index)
+            {
+                // 移除指定索引的文件
+                this. multipleFiles.delete(`${this.File[index].name}`);
+                this.File.splice(index, 1);
             },
             saveDraft()
             {

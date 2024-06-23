@@ -3,18 +3,32 @@
         <Header/>
     </div>
     <el-container>
-        <el-aside style="border-width: thick;border-color: #4036ff">
-            <el-menu>
-                <el-menu-item index="1" @click="$router.push({name:'writeEmail'})">写信</el-menu-item>
-                <el-menu-item index="2" @click="$router.push({name:'EmailHaveSent'})">已发送</el-menu-item>
-                <el-menu-item index="3" @click="$router.push({name:'EmailHaveReceived'});">收信箱</el-menu-item>
-                <el-menu-item index="4" @click="$router.push({name:'StarEmail'})">星标邮件</el-menu-item>
-                <el-menu-item index="5" @click="$router.push({name:'DraftBox'})">草稿箱</el-menu-item>
-                <el-menu-item index="6" @click="$router.push({name:'JunkMailBox'})">垃圾箱</el-menu-item>
-            </el-menu>
+        <el-aside style="width: 10vw;height:85vh;border: 5px solid #cbe6ff; border-bottom: 2.5px solid #cbe6ff; border-radius: 8px 0 0 0">
+            <div style=" border-bottom: 2.5px solid #cbe6ff; border-radius: 8px 0 0 0;">
+                <el-menu style=" border-radius: 8px 8px 8px 8px">
+                    <el-menu-item index="1" @click="$router.push({name:'writeEmail'})"
+                                  style="border-bottom: 2px solid transparent;background-image: linear-gradient(to
+                                  right, #7f7f7f, transparent); background-size: 100% 2px; background-repeat:
+                                  no-repeat; background-position: bottom center;font-size: 15px">
+                      写信
+                    </el-menu-item>
+                    <el-menu-item index="2" @click="$router.push({name:'EmailHaveSent'})">已发送</el-menu-item>
+                </el-menu>
+              
+            </div>
+            <div style="border-top: 2.5px solid #cbe6ff;height:auto">
+                <div  style=" border-radius: 8px;">
+                <el-menu style=" border-radius:8px 8px 8px 8px;">
+                    <el-menu-item index="3" @click="$router.push({name:'EmailHaveReceived'});">收信箱</el-menu-item>
+                    <el-menu-item index="4" @click="$router.push({name:'StarEmail'})">星标邮件</el-menu-item>
+                    <el-menu-item index="5" @click="$router.push({name:'DraftBox'})">草稿箱</el-menu-item>
+                    <el-menu-item index="6" @click="$router.push({name:'JunkMailBox'})">垃圾箱</el-menu-item>
+                </el-menu>
+                    </div>
+            </div>
         </el-aside>
-        <el-main>
-            <router-view name="Main"/>
+        <el-main style="width: auto;height: 90vh;border-left: 1px solid #cbe6ff;border-top: 5px solid #cbe6ff;">
+            <router-view name="Main" style="border-radius: 8px 0 0 0;"/>
         </el-main>
     </el-container>
 </template>
@@ -23,9 +37,11 @@
     import axios from "axios";
     import {ElMessage, ElNotification} from "element-plus";
     import emitter from '@/services/event_bus.js'
+
     
     export default {
         components: {
+        
             Header,
         },
         data()

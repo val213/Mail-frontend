@@ -481,8 +481,8 @@
                 let encodedIds;
                 if (typeof a === 'undefined')
                 {   console.log('typeof a:', typeof a); // 打印a的类型
-                    const ids = this.Emailsbeingchosen;
-                    encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
+                 
+                    encodedIds =  this.Emailsbeingchosen;
                 } else
                 {
                     console.log('b');
@@ -529,8 +529,8 @@
                     encodedIds = [a]
                 } else
                 {
-                    const ids = this.Emailsbeingchosen
-                    encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
+                     encodedIds= this.Emailsbeingchosen
+                  
                 }
                 axios({
                     method: "put",

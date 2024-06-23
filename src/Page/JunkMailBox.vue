@@ -19,7 +19,7 @@
         methods: {
             initiate()
             {
-                this.junkmail = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`))
+                this.junkmail = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`))||[]
             },
             handleSelectionChange(selection)
             {

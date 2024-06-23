@@ -5,7 +5,7 @@
         <!-- <el-input class="search" v-model="searchText" placeholder="搜索邮件" @input="searchEmails"></el-input> -->
         <div style="margin-top: 0 ;position: absolute;width:70%;align-items: center">
             <input type="text" id="searchInput" v-model="searchText" style="width:50%;height:30px" @focus="show=true"
-                   @blur="show=false" @input="dealwiththeinput" placeholder="在这里搜索邮件" >
+                   @blur="show=false" @input="dealwiththeinput" placeholder="在这里搜索邮件">
             <table style="
   position: absolute;
   background-color: #f9f9f9;
@@ -49,7 +49,7 @@
                 allEmails: JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`)),
                 thelisttoshow: [],
                 filteredEmails: [],
-                  imageurl:localStorage.getItem(localStorage.getItem('userId')),
+                imageurl: localStorage.getItem(localStorage.getItem('userId')),
                 username: localStorage.getItem(`${localStorage.getItem('userId')}username`),
                 address: localStorage.getItem(`${localStorage.getItem('userId')}emailAddress`)
             };
@@ -117,7 +117,7 @@
 <style scoped>
     .header
     {
-        height: 80px;
+        height: 10vh;
         background: linear-gradient(90deg, #cbe6ff, #ffffff);
         display: flex;
         align-items: center;
