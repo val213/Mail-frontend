@@ -4,7 +4,8 @@
         <img class="logo" src="@/assets/logo.png" alt="Logo">
         <!-- <el-input class="search" v-model="searchText" placeholder="搜索邮件" @input="searchEmails"></el-input> -->
         <div style="margin-top: 0 ;position: absolute;width:70%;align-items: center">
-            <input type="text" id="searchInput" ref="searchInput" v-model="searchText" style="width:50%;height:30px"  @focus="show=true"  @blur="handleBlur"
+            <input type="text" id="searchInput" ref="searchInput" v-model="searchText" style="width:50%;height:30px"
+                   @focus="show=true"  @blur="handleBlur"
             @input="dealwiththeinput" placeholder="在这里搜索邮件" >
             <table style="
   position: absolute;
@@ -12,8 +13,9 @@
   width: 50%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 12px 16px;
-  z-index: 1;" class="searchTable" ref="searchTable" v-if="show" @mousedown="show = true" @mouseleave="handleBlur">
-                <tr class="table-row" v-for="item in this.thelisttoshow" :key="item.id" @click="handleClick(item.id)">
+  z-index: 1;" class="searchTable" ref="searchTable" v-if="show" @mousedown="show = true" >
+                <tr class="table-row" v-for="item in this.thelisttoshow" :key="item.id"
+                    @click="handleClick(item.id);">
                     <td>{{ item.senderUsername }}</td>
                     <td>{{ item.receiverUsername }}</td>
                     <td>{{ item.theme }}</td>
@@ -101,22 +103,16 @@
                 console.log("clicked!");
                 // 假设每封邮件的唯一标识符是id，并且它是row对象的一个属性
                 // 跳转到邮件详情页面，并将邮件ID作为参数传递
-                this.$router.push({ name: 'MailDetail', params: { mailId: mailID } }).then(() => {
+              
+                router.push({name: 'MailDetail', params: {mailId: mailID}}).then(() => {
                     this.show = false;
                 });
             },
             handleBlur() {
-                // 延迟检查是因为如果直接设置 show = false，
-                // 用户点击表格行时可能会因为冒泡而立即隐藏表格
-                // this.$nextTick(() => {
-                //     // 检查用户是否仍然在输入框或表格上
-                //     if (
-                //     !this.$refs.searchInput.contains(document.activeElement) &&
-                //     !this.$refs.searchTable.contains(document.activeElement)
-                //     ) {
-                //     this.show = false;
-                //     }
-                // });
+                   setTimeout(()=>{
+                       
+                       this.show=false
+                   },50)
             },
         },
         created()
@@ -177,9 +173,11 @@
 
     .table-row:hover {
         background-color: rgb(230, 242, 255);
+         cursor: pointer;
     }
     
     .table-row:active {
         background-color: rgb(188, 229, 255);
+         cursor: pointer;
     }
 </style>
