@@ -2,7 +2,7 @@
     <div>
         <div>
             <el-button @click="handleDelete" v-if="!junk">删除</el-button>
-            <el-button>标记为星标</el-button>
+            <el-button @click="handleStar">标记为星标</el-button>
         </div>
         <div v-if="Emails.length > 0">
             <el-table :data="Emails" :row-style="getRowStyle" style="width: 100%" @row-dblclick="handleRowDblclick"
@@ -118,36 +118,165 @@
                 console.log("初始化邮件列表"); // 添加日志
                 this.getEmailsfromlocal()
             },
+            centerprocess(id, star, read, del, offline)
+            {
+                let emails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`))
+                if (read === 1 && offline === 0)
+                {
+                    for (let i = 0; i < emails.length; i++)
+                    {
+                        if (id === emails[i].id)
+                        {
+                            emails[i].read = 1
+                            //更新本地缓存
+                            localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                            this.getEmailsfromlocal()
+                        }
+                    }
+                } else if (star === 1 && offline === 0)
+                {
+                    for (let j = 0; j < id.length; j++)
+                    {
+                        for (let i = 0; i < emails.length; i++)
+                        {
+                            if (id[j] === emails[i].id)
+                            {
+                                emails[i].star = 1
+                                //更新本地缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                                this.getEmailsfromlocal()
+                            }
+                        }
+                    }
+                } else if (star === 0 && offline === 0)
+                {
+                    for (let j = 0; j < id.length; j++)
+                    {
+                        for (let i = 0; i < emails.length; i++)
+                        {
+                            if (id[j] === emails[i].id)
+                            {
+                                emails[i].star = 0
+                                //更新本地缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                                this.getEmailsfromlocal()
+                            }
+                        }
+                    }
+                } else if (star === 1 && offline === 1)
+                {
+                    for (let j = 0; j < id.length; j++)
+                    {
+                        for (let i = 0; i < emails.length; i++)
+                        {
+                            if (id[j] === emails[i].id)
+                            {
+                                emails[i].star = 1
+                                //更新本地缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                                this.getEmailsfromlocal()
+                                let needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
+                                let thing = {ids: id, type: 1}
+                                needtodealwith.push(thing)
+                                localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
+                            }
+                        }
+                    }
+                } else if (star === 0 && offline === 1
+                )
+                {
+                    for (let j = 0; j < id.length; j++)
+                    {
+                        for (let i = 0; i < emails.length; i++)
+                        {
+                            if (id[j] === emails[i].id)
+                            {
+                                emails[i].star = 0
+                                //更新本地缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                                this.getEmailsfromlocal()
+                                let
+                                    needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
+                                let thing = {ids: id, type: 2}
+                                needtodealwith.push(thing)
+                                localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
+                            }
+                        }
+                    }
+                } else if (del === 1 && offline === 0)
+                {
+                    let junkmailbox = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`)) || []
+                    for (let j = 0; j < id.length; j++)
+                    {
+                        for (let i = 0; i < emails.length; i++)
+                        {
+                            if (id[j] == emails[i].id)
+                            {
+                                junkmailbox.push(emails[i])
+                                emails.splice(i, 1)
+                                //更新本地缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                                this.getEmailsfromlocal()
+                                //更新垃圾箱缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}JunkMailBox`,
+                                    JSON.stringify(junkmailbox))
+                            }
+                        }
+                    }
+                } else if (del === 1 && offline === 1)
+                {
+                    let junkmailbox = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`)) || []
+                    for (let j = 0; j < id.length; j++)
+                    {
+                        for (let i = 0; i < emails.length; i++)
+                        {
+                            if (id[j] == emails[i].id)
+                            {
+                                junkmailbox.push(emails[i])
+                                emails.splice(i, 1)
+                                //更新本地缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
+                                this.getEmailsfromlocal()
+                                //更新垃圾箱缓存
+                                localStorage.setItem(`${localStorage.getItem('userId')}JunkMailBox`,
+                                    JSON.stringify(junkmailbox))
+                                let
+                                    needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
+                                let thing = {ids: id[i], type: 0}
+                                needtodealwith.push(thing)
+                                localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
+                            }
+                        }
+                    }
+                }
+            },
             getEmailsfromlocal()
             {
                 let emails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`))
-               
-                
                 //这里对缓存里的进行过滤，以显示需要的
-                let emailfordifferenttype=[]
-                
-                for(let i =0;i<emails.length;i++)
+                let emailfordifferenttype = []
+                for (let i = 0; i < emails.length; i++)
                 {
                     /*console.log(JSON.parse(localStorage.getItem('用户信息')).username,emails[i].senderUsername,emails[i].receiverUsername)*/
-                    if(this.star===1&&emails[i].star===1)
+                    if (this.star === 1 && emails[i].star === 1 && emails[i].junk !== 1)
                     {
                         emailfordifferenttype.push(emails[i])
-                    }else
-                        if(this.type===1&&emails[i].senderUsername===localStorage.getItem(`${localStorage.getItem('userId')}username`)){
-                        
-                         emailfordifferenttype.push(emails[i])
-                    }else
-                        if(this.type===2&&emails[i].receiverUsername===localStorage.getItem(`${localStorage.getItem('userId')}username`)){
-                         
-                         emailfordifferenttype.push(emails[i])
-                    }else if(this.draft===1&&emails[i].draft===1)
-                        {
-                            emailfordifferenttype.push(emails[i])
-                        }
-                    
-                } this.total = emailfordifferenttype.length
+                    } else if (this.type === 1 && emails[i].senderUsername ===
+                        localStorage.getItem(`${localStorage.getItem('userId')}username`) && emails[i].junk !== 1)
+                    {
+                        emailfordifferenttype.push(emails[i])
+                    } else if (this.type === 2 && emails[i].receiverUsername ===
+                        localStorage.getItem(`${localStorage.getItem('userId')}username`) && emails[i].junk !== 1)
+                    {
+                        emailfordifferenttype.push(emails[i])
+                    } else if (this.draft === 1 && emails[i].draft === 1)
+                    {
+                        emailfordifferenttype.push(emails[i])
+                    }
+                }
+                this.total = emailfordifferenttype.length
                 this.Emails = []
-                for (let i = (this.pageNumber- 1)*this.pageSize ; i < this.pageSize; i++)
+                for (let i = (this.pageNumber - 1) * this.pageSize; i < this.pageSize; i++)
                 {
                     if (emailfordifferenttype[i])
                     {
@@ -171,10 +300,10 @@
                     userId: this.userId,
                     pageNumber: this.pageNumber,
                     pageSize: this.pageSize,
-                    type:null,
-                    star:null,
-                    readis:null,
-                    draft:null,
+                    type: null,
+                    star: null,
+                    readis: null,
+                    draft: null,
                     junk: this.junk
                 }
                 axios({
@@ -192,7 +321,7 @@
                         console.log('查询邮件成功');
                         this.showSuccessToast('查询邮件成功');
                         let emails = res.data.data.records;
-                        localStorage.setItem('Emails', JSON.stringify(emails))
+                        localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
                         this.getEmailsfromlocal()
                         this.total = res.data.data.total;
                         // 打印日志
@@ -243,7 +372,7 @@
                     {
                         console.log('设置邮件为已读成功');
                         this.showSuccessToast('设置邮件为已读成功');
-                        this.getEmails();
+                        this.centerprocess(mailId, null, 1, null, 0)
                     } else
                     {
                         console.log('设置邮件为已读失败' + mailId);
@@ -310,8 +439,6 @@
             {
                 const ids = this.Emailsbeingchosen
                 const encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
-                let junkmailbox = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}JunkMailBox`)) || []
-                let emails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`))
                 axios({
                     method: "delete",
                     url: "/mail/delete",
@@ -338,113 +465,89 @@
                                 pauseOnHover: true,
                                 position: 'top-right',
                             });
-                            for (let j = 0; j < ids.length; j++)
-                            {
-                                for (let i = 0; i < emails.length; i++)
-                                {
-                                    if (ids[i] == emails[i].id)
-                                    {
-                                        junkmailbox.push(emails[i])
-                                        emails.splice(i, 1)
-                                        //更新本地缓存
-                                        localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
-                                        this.getEmailsfromlocal()
-                                        //更新垃圾箱缓存
-                                        localStorage.setItem(`${localStorage.getItem('userId')}JunkMailBox`,
-                                            JSON.stringify(junkmailbox))
-                                        let
-                                            needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
-                                        let thing = {ids: ids[i], type: 0}
-                                        needtodealwith.push(thing)
-                                        localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
-                                    }
-                                }
-                            }
+                            this.centerprocess(encodedIds, null, null, 1, 0)
                         }
                     }
                 ).catch((error) =>
                 {// 这里处理联网失败的情况
                     console.log('联网失败:', error);
-                    for (let j = 0; j < ids.length; j++)
-                    {
-                        for (let i = 0; i < emails.length; i++)
-                        {
-                            if (ids[j] ==emails[i].id)
-                            {
-                                junkmailbox.push(emails[i])
-                                emails.splice(i, 1)
-                                //更新本地缓存
-                                localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
-                                this.getEmailsfromlocal()
-                                //更新垃圾箱缓存
-                                localStorage.setItem(`${localStorage.getItem('userId')}JunkMailBox`,
-                                    JSON.stringify(junkmailbox))
-                                let
-                                    needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
-                                let thing = {ids: ids[i], type: 0}
-                                needtodealwith.push(thing)
-                                localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
-                            }
-                        }
-                    }
+                    this.centerprocess(encodedIds, null, null, 1, 1)
                 });
             },
             handleStar(a)
             {
-                const ids = a
+                let encodedIds
+                if (a == null)
+                {
+                    console.log('a为空')
+                    const ids = this.Emailsbeingchosen
+                    encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
+                } else
+                {
+                    encodedIds = [a]
+                }
                 axios({
                     method: "put",
                     url: "/mail/star",
                     params: {
-                        ids,
+                        // 直接传递编码后的ID数组
+                        'ids': encodedIds,
+                    },
+                    paramsSerializer: params =>
+                    {
+                        // 使用自定义序列化函数来构造查询字符串
+                        return Object.keys(params)
+                            .map(key => `${key}=${params[key].join(',')}`)
+                            .join('&');
                     }
                 }).then((res) =>
                 {
                     if (res.status === 200)
-                    {
-                        this.getEmails()
+                    { console.log('星标成功')
+                        this.centerprocess(encodedIds, 1, null, null, 0)
                     } else
                     {
-                        console.log('删除失败' + res.data.message);
+                        console.log('星标失败' + res.data.message);
                     }
                 }).catch((error) =>
                 {
                     // 这里处理联网失败的情况
                     console.log('联网失败:', error);
-                    let emails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`))
-                    for (let i = 0; i < emails.length; i++)
-                    {
-                        if (ids === emails[i].id)
-                        {
-                            emails[i].star = 1
-                            //更新本地缓存
-                            localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
-                            this.getEmailsfromlocal()
-                            let
-                                needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
-                            let thing = {ids: ids, type: 1}
-                            needtodealwith.push(thing)
-                            localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
-                        }
-                    }
+                    this.centerprocess(encodedIds, 1, null, null, 1)
                     // 可以执行其他操作，比如显示错误消息或尝试重新连接
                 });
             }
             ,
             handleCancelStar(a)
             {
-                const ids = a
+                let encodedIds
+                if (a)
+                {
+                    encodedIds = [a]
+                } else
+                {
+                    const ids = this.Emailsbeingchosen
+                    encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
+                }
                 axios({
                     method: "put",
                     url: "/mail/cancelstar",
                     params: {
-                        ids,
+                        // 直接传递编码后的ID数组
+                        'ids': encodedIds,
+                    },
+                    paramsSerializer: params =>
+                    {
+                        // 使用自定义序列化函数来构造查询字符串
+                        return Object.keys(params)
+                            .map(key => `${key}=${params[key].join(',')}`)
+                            .join('&');
                     }
                 }).then((res) =>
                 {
                     if (res.status === 200)
                     {
-                        this.getEmails()
+                        this.centerprocess(encodedIds, 0, null, null, 0)
                     } else
                     {
                         console.log('删除失败' + res.data.message);
@@ -453,29 +556,14 @@
                 {
                     // 这里处理断网失败的情况
                     console.log('联网失败:', error);
-                    let emails = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`))
-                    for (let i = 0; i < emails.length; i++)
-                    {
-                        if (ids === emails[i].id)
-                        {
-                            emails[i].star = 0
-                            //更新本地缓存
-                            localStorage.setItem(`${localStorage.getItem('userId')}Emails`, JSON.stringify(emails))
-                            this.getEmailsfromlocal()
-                            let
-                                needtodealwith = JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`)) || []
-                            let thing = {ids: ids, type: 2}
-                            needtodealwith.push(thing)
-                            localStorage.setItem(`${localStorage.getItem('userId')}needtodealwithafterconnect`, JSON.stringify(needtodealwith))
-                        }
-                    }
+                    this.centerprocess(encodedIds, 0, null, null, 1)
                     // 可以执行其他操作，比如显示错误消息或尝试重新连接
                 });
             }
             ,
             getRowStyle(row)
             {
-                if (row.row.read == 1)
+                if (row.row.read === 1)
                 {
                     return {backgroundColor: 'white'}; // 已读邮件的背景色
                 } else
@@ -494,9 +582,17 @@
             {
                 if (data === 1)
                 {
-                    this.getEmailsfromlocal();
+                    console.log('emiiter的消息传到这里了')
+                    setTimeout(() =>
+                    {
+                        this.getEmailsfromlocal()
+                    }, 300)
                 }
             })
+        },
+        beforeUnmount()
+        {
+            emitter.off('new')
         }
     }
 </script>

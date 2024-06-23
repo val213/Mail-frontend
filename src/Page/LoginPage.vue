@@ -52,7 +52,7 @@ const Login = async () =>
             response.data.data.username);
         // 存储邮箱地址
         localStorage.setItem(`${localStorage.getItem('userId')}emailAddress`, response.data.data.emailAddress);
-        await router.push({path:'/MainPage'})
+        await router.push({name:'MainPage'})
     } catch (error)
     {
         console.log(error);
