@@ -2,8 +2,8 @@
     <div>
         <Header/>
     </div>
-    <el-container>
-        <el-aside style="width: 10vw;height:99vh;border: 5px solid #cbe6ff; border-bottom: 2.5px solid #cbe6ff;
+    <el-container style=" overflow: hidden">
+        <el-aside style="width: 10vw;height:90vh;border: 5px solid #cbe6ff; border-bottom: 2.5px solid #cbe6ff;
         border-radius: 8px 0 0 0">
             <div style=" border-bottom: 2.5px solid #cbe6ff; border-radius: 8px 0 0 0;">
                 <el-menu style=" border-radius: 8px 8px 8px 8px">
@@ -11,21 +11,20 @@
                                   style="border-bottom: 2px solid transparent;background-image: linear-gradient(to
                                   right, #7f7f7f, transparent); background-size: 100% 2px; background-repeat:
                                   no-repeat; background-position: bottom center;font-size: 15px">
-                      写信
+                        写信
                     </el-menu-item>
                     <el-menu-item index="2" @click="$router.push({name:'EmailHaveSent'})">已发送</el-menu-item>
                 </el-menu>
-              
             </div>
             <div style="border-top: 2.5px solid #cbe6ff;height:auto">
-                <div  style=" border-radius: 8px;">
-                <el-menu style=" border-radius:8px 8px 8px 8px;">
-                    <el-menu-item index="3" @click="$router.push({name:'EmailHaveReceived'});">收信箱</el-menu-item>
-                    <el-menu-item index="4" @click="$router.push({name:'StarEmail'})">星标邮件</el-menu-item>
-                    <el-menu-item index="5" @click="$router.push({name:'DraftBox'})">草稿箱</el-menu-item>
-                    <el-menu-item index="6" @click="$router.push({name:'JunkMailBox'})">垃圾箱</el-menu-item>
-                </el-menu>
-                    </div>
+                <div style=" border-radius: 8px;">
+                    <el-menu style=" border-radius:8px 8px 8px 8px;">
+                        <el-menu-item index="3" @click="$router.push({name:'EmailHaveReceived'});">收信箱</el-menu-item>
+                        <el-menu-item index="4" @click="$router.push({name:'StarEmail'})">星标邮件</el-menu-item>
+                        <el-menu-item index="5" @click="$router.push({name:'DraftBox'})">草稿箱</el-menu-item>
+                        <el-menu-item index="6" @click="$router.push({name:'JunkMailBox'})">垃圾箱</el-menu-item>
+                    </el-menu>
+                </div>
             </div>
         </el-aside>
         <el-main style="width: auto;height: 90vh;border-left: 1px solid #cbe6ff;border-top: 5px solid #cbe6ff;">
@@ -38,11 +37,9 @@
     import axios from "axios";
     import {ElMessage, ElNotification} from "element-plus";
     import emitter from '@/services/event_bus.js'
-
     
     export default {
         components: {
-        
             Header,
         },
         data()
@@ -148,12 +145,21 @@
                     for (let i = 0; i < needtodealwith.length; i++)
                     {
                         if (needtodealwith[i].type === 1)
-                        {
+                        {  let a = needtodealwith[i].ids
                             axios({
                                 method: "put",
                                 url: "/mail/star",
                                 params: {
-                                    'ids': needtodealwith[i].ids,
+                                    'ids': a,
+                                },
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                } ,  paramsSerializer: params =>
+                                {
+                                    // 使用自定义序列化函数来构造查询字符串
+                                    return Object.keys(params)
+                                        .map(key => `${key}=${params[key].join(',')}`)
+                                        .join('&');
                                 }
                             }).then((res) =>
                             {
@@ -196,11 +202,21 @@
                             });
                         } else if (needtodealwith[i].type === 2)
                         {
+                            let a = needtodealwith[i].ids
                             axios({
                                 method: "put",
                                 url: "/mail/cancelstar",
                                 params: {
-                                    'ids': needtodealwith[i].ids,
+                                    'ids': a,
+                                }, headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                paramsSerializer: params =>
+                                {
+                                    // 使用自定义序列化函数来构造查询字符串
+                                    return Object.keys(params)
+                                        .map(key => `${key}=${params[key].join(',')}`)
+                                        .join('&');
                                 }
                             }).then((res) =>
                             {

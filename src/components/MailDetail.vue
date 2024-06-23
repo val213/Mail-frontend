@@ -6,6 +6,7 @@
         </button>
         <AiMailContentSummarize
             :mailContent="content"></AiMailContentSummarize>
+     
     </div>
     <div>
         <div style="background-color:#EFF5FB">
@@ -22,7 +23,7 @@
             <span style="color: #7f7f7f;font-size:small;font-weight: lighter;padding-left: 20px">附件:&nbsp;{{
                     attachments ? attachments.length : 0
                 }}个</span></div>
-        <div style="border: 1px solid #ccc;">
+        <div style="border: 1px solid #ccc;height: 60vh">
             <Editor
                 style="height: 400px; overflow-y: hidden;"
                 :defaultConfig="editorConfig"
