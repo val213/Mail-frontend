@@ -4,7 +4,7 @@
         <img class="logo" src="@/assets/logo.png" alt="Logo">
         <!-- <el-input class="search" v-model="searchText" placeholder="搜索邮件" @input="searchEmails"></el-input> -->
         <div style="margin-top: 0 ;position: absolute;width:70%;align-items: center">
-            <input type="text" id="searchInput" ref="searchInput" v-model="searchText" style="width:50%;height:30px"  @focus="show=true"  @blur="handleBlur"
+            <input type="text" id="searchInput" ref="searchInput" v-model="searchText" style="width:50%;height:30px"  @focus="show=true"  @blur="show=false"
             @input="dealwiththeinput" placeholder="在这里搜索邮件" >
             <table style="
   position: absolute;
