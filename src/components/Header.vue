@@ -16,9 +16,9 @@
   z-index: 1;" class="searchTable" ref="searchTable" v-if="show" @mousedown="show = true" >
                 <tr class="table-row" v-for="item in this.thelisttoshow" :key="item.id"
                     @click="handleClick(item.id);">
-                    <td>{{ item.senderUsername }}</td>
-                    <td>{{ item.receiverUsername }}</td>
-                    <td>{{ item.theme }}</td>
+                    <td>发件人：{{ item.senderUsername }}</td>
+                    <td>收件人：{{ item.receiverUsername }}</td>
+                    <td>主题{{ item.theme }}</td>
                     <!-- 更多的列 -->
                 </tr>
             </table>
@@ -100,7 +100,6 @@
             },
             handleClick(mailID)
             {
-                console.log("clicked!");
                 // 假设每封邮件的唯一标识符是id，并且它是row对象的一个属性
                 // 跳转到邮件详情页面，并将邮件ID作为参数传递
               
@@ -112,7 +111,7 @@
                    setTimeout(()=>{
                        
                        this.show=false
-                   },50)
+                   },500)
             },
         },
         created()
@@ -168,7 +167,7 @@
         display: block; /* 确保el-descriptions独占一行 */
         clear: both; /* 如果之前的元素使用了float，这可以帮助清除浮动 */
         width: 100%; /* 可选，确保占满整行 */
-        margin-top: 10px;
+        margin-top: 7px;
     }
 
     .table-row:hover {

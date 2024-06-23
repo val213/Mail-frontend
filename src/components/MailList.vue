@@ -3,6 +3,7 @@
         <div>
             <el-button @click="handleDelete" v-if="!junk">删除</el-button>
             <el-button @click="handleStar()">标记为星标</el-button>
+            <el-button @click="handleCancelStar()">取消星标</el-button>
         </div>
         <div v-if="Emails.length > 0">
             <el-table :data="Emails" :row-style="getRowStyle" style="width: 100%" @row-dblclick="handleRowDblclick"

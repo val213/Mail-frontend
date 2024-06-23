@@ -58,7 +58,7 @@
     text-align: right;color: #1f74c0;padding-right:5px">正文:
                 </td>
                 <td>
-                    <div style="border: 1px solid #ccc; margin-top: 10px;width: 80vw">
+                    <div style="border: 1px solid #ccc; margin-top: 10px;width: 80vw;height:60vh">
                         <!-- 工具栏 -->
                         <Toolbar
                             style="border-bottom: 1px solid #ccc"
@@ -101,7 +101,7 @@
                 toolbarConfig: {
                     // toolbarKeys: [ /* 显示哪些菜单，如何排序、分组 */ ],
                     excludeKeys: ['group-video',
-                        'group-image', 'blockquote', 'headerSelect', 'todo', 'fullScreen'],
+                        'blockquote', 'headerSelect', 'todo', 'fullScreen'],
                 },
                 editorConfig: {
                     placeholder: "请输入内容...",
