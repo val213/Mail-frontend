@@ -2,7 +2,7 @@
     <div>
         <div>
             <el-button @click="handleDelete" v-if="!junk">删除</el-button>
-            <el-button @click="handleStar">标记为星标</el-button>
+            <el-button @click="handleStar()">标记为星标</el-button>
         </div>
         <div v-if="Emails.length > 0">
             <el-table :data="Emails" :row-style="getRowStyle" style="width: 100%" @row-dblclick="handleRowDblclick"
@@ -476,15 +476,17 @@
             },
             handleStar(a)
             {
-                let encodedIds
-                if (a == null)
-                {
-                    console.log('a为空')
-                    const ids = this.Emailsbeingchosen
+                console.log('a:', a); // 打印a的值
+                console.log('typeof a:', typeof a); // 打印a的类型
+                let encodedIds;
+                if (typeof a === 'undefined')
+                {   console.log('typeof a:', typeof a); // 打印a的类型
+                    const ids = this.Emailsbeingchosen;
                     encodedIds = ids.map(id => encodeURIComponent(id.toString().trim()));
                 } else
                 {
-                    encodedIds = [a]
+                    console.log('b');
+                    encodedIds = [a];
                 }
                 axios({
                     method: "put",
@@ -503,7 +505,8 @@
                 }).then((res) =>
                 {
                     if (res.status === 200)
-                    { console.log('星标成功')
+                    {
+                        console.log('星标成功')
                         this.centerprocess(encodedIds, 1, null, null, 0)
                     } else
                     {
