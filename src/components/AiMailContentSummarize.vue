@@ -23,7 +23,7 @@ export default {
             ElNotification({
                 title: 'Ai邮件总结内容如下：',
                 message: h('i', { style: 'color: teal' }, response.data),
-                duration: 0
+                duration: 10000
             })
         },
         async summarize() {
