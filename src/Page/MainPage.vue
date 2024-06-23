@@ -136,7 +136,7 @@
                                 method: "put",
                                 url: "/mail/star",
                                 params: {
-                                    'ids': [needtodealwith[i].ids],
+                                    'ids': needtodealwith[i].ids,
                                 }
                             }).then((res) =>
                             {
@@ -183,7 +183,7 @@
                                 method: "put",
                                 url: "/mail/cancelstar",
                                 params: {
-                                    'ids': [needtodealwith[i].ids],
+                                    'ids': needtodealwith[i].ids,
                                 }
                             }).then((res) =>
                             {
