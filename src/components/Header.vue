@@ -4,18 +4,18 @@
         <img class="logo" src="@/assets/logo.png" alt="Logo">
         <!-- <el-input class="search" v-model="searchText" placeholder="搜索邮件" @input="searchEmails"></el-input> -->
         <div style="margin-top: 0 ;position: absolute;width:70%;align-items: center">
-            <input type="text" id="searchInput" v-model="searchText" style="width:50%;height:30px" @focus="show=true"
-                   @blur="show=false" @input="dealwiththeinput" placeholder="在这里搜索邮件">
+            <input type="text" id="searchInput" ref="searchInput" v-model="searchText" style="width:50%;height:30px"  @focus="show=true"  @blur="handleBlur"
+            @input="dealwiththeinput" placeholder="在这里搜索邮件" >
             <table style="
   position: absolute;
   background-color: #f9f9f9;
   width: 50%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 12px 16px;
-  z-index: 1;" v-if="show">
-                <tr v-for="item in this.thelisttoshow" :key="item.id">
+  z-index: 1;" class="searchTable" ref="searchTable" v-if="show" @mousedown="show = true" @mouseleave="handleBlur">
+                <tr class="table-row" v-for="item in this.thelisttoshow" :key="item.id" @click="handleClick(item.id)">
                     <td>{{ item.senderUsername }}</td>
-                    <td>{{ item.receiverUserName }}</td>
+                    <td>{{ item.receiverUsername }}</td>
                     <td>{{ item.theme }}</td>
                     <!-- 更多的列 -->
                 </tr>
@@ -49,7 +49,7 @@
                 allEmails: JSON.parse(localStorage.getItem(`${localStorage.getItem('userId')}Emails`)),
                 thelisttoshow: [],
                 filteredEmails: [],
-                imageurl: localStorage.getItem(localStorage.getItem('userId')),
+                  imageurl:localStorage.getItem(localStorage.getItem('userId')),
                 username: localStorage.getItem(`${localStorage.getItem('userId')}username`),
                 address: localStorage.getItem(`${localStorage.getItem('userId')}emailAddress`)
             };
@@ -96,6 +96,28 @@
                     }
                 }
             },
+            handleClick(mailID)
+            {
+                console.log("clicked!");
+                // 假设每封邮件的唯一标识符是id，并且它是row对象的一个属性
+                // 跳转到邮件详情页面，并将邮件ID作为参数传递
+                this.$router.push({ name: 'MailDetail', params: { mailId: mailID } }).then(() => {
+                    this.show = false;
+                });
+            },
+            handleBlur() {
+                // 延迟检查是因为如果直接设置 show = false，
+                // 用户点击表格行时可能会因为冒泡而立即隐藏表格
+                // this.$nextTick(() => {
+                //     // 检查用户是否仍然在输入框或表格上
+                //     if (
+                //     !this.$refs.searchInput.contains(document.activeElement) &&
+                //     !this.$refs.searchTable.contains(document.activeElement)
+                //     ) {
+                //     this.show = false;
+                //     }
+                // });
+            },
         },
         created()
         {
@@ -117,7 +139,7 @@
 <style scoped>
     .header
     {
-        height: 10vh;
+        height: 80px;
         background: linear-gradient(90deg, #cbe6ff, #ffffff);
         display: flex;
         align-items: center;
@@ -151,5 +173,13 @@
         clear: both; /* 如果之前的元素使用了float，这可以帮助清除浮动 */
         width: 100%; /* 可选，确保占满整行 */
         margin-top: 10px;
+    }
+
+    .table-row:hover {
+        background-color: rgb(230, 242, 255);
+    }
+    
+    .table-row:active {
+        background-color: rgb(188, 229, 255);
     }
 </style>

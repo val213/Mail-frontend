@@ -1,33 +1,32 @@
 <template>
-    <div style="padding-top: 20px;padding-left: 20px">
+    <div style="padding-top: 10px;padding-left: 20px">
         <table>
             <tr>
                 <td>
                 </td>
                 <td>
                     <div style="">
-                        <button @click="sendEmail">发送</button>
-                        <button>定时发送</button>
-                        <button @click="saveDraft">存草稿</button>
-                        <button @click="close">关闭</button>
+                        <el-button type="primary" plain @click="sendEmail">发送</el-button>
+                        <el-button type="primary" plain @click="saveDraft">存草稿</el-button>
+                        <el-button type="primary" plain @click="close">关闭</el-button>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td style="  vertical-align: top;
-    text-align: right;padding-right:5px;color: #1f74c0">收件人
+                <td style="  vertical-align: top; padding-top: 10px;
+    text-align: right;padding-right:5px;color: #1f74c0; ">收件人
                 </td>
-                <td><input style='width:80vw' type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
+                <td><input style="width: 1400px;height:20px" type="text" id="targetEmailAddress" v-model="targetEmailAddress"></td>
             </tr>
             <tr>
-                <td style="  vertical-align: top;
+                <td style="  vertical-align: top; padding-top: 10px;
     text-align: right;padding-right:5px;color: #1f74c0;">主题
                 </td>
-                <td><input style='width:80vw' type="text" id="lname" v-model="theme"><br></td>
+                <td><input style="width: 1400px;height:20px" type="text" id="lname" v-model="theme"><br></td>
             </tr>
           
             <tr>
-                <td style="
+                <td style=" padding-top: 10px;
     text-align: right;padding-right:5px;color: #1f74c0;">
                     <el-upload
                         :before-upload="uploadFiles"
@@ -49,11 +48,11 @@
                 </td>
             </tr>
             <tr>
-                <td style="  vertical-align: top;
+                <td style="  vertical-align: top; padding-top: 10px;
     text-align: right;padding-top: 10px;color: #1f74c0;padding-right:5px">正文:
                 </td>
                 <td>
-                    <div style="border: 1px solid #ccc; margin-top: 10px;width:80vw">
+                    <div style="border: 1px solid #ccc; margin-top: 10px;width:150%">
                         <!-- 工具栏 -->
                         <Toolbar
                             style="border-bottom: 1px solid #ccc"
@@ -168,13 +167,6 @@
                         this.showErrorToast('发送邮件失败');
                     });
             },
-            
-            deleteFile(index)
-            {
-                // 移除指定索引的文件
-                this. multipleFiles.delete(`${this.File[index].name}`);
-                this.File.splice(index, 1);
-            },
             saveDraft()
             {
                 const editor = this.editor
@@ -269,6 +261,12 @@
             close()
             {
                 this.$router.push('/mainpage')
+            },
+            deleteFile(index)
+            {
+                // 移除指定索引的文件
+                this.multipleFiles.splice(`${this.File[index].name}`);
+                this.File.splice(index, 1);
             },
         }
         ,
