@@ -40,7 +40,7 @@
             </el-table>
             <el-pagination @update:page-size="handleSizeChange" @update:current-page="handleCurrentChange"
                            :current-page="pageNumber" :page-size="pageSize" layout="total, prev, pager, next, jumper"
-                           :total="total"></el-pagination>
+                           :total="total" style="margin-left: 40%"></el-pagination>
         </div>
         <el-empty v-else description="没有邮件"
                   image="https://cdn-icons-png.flaticon.com/128/4076/4076559.png"></el-empty>

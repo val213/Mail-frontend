@@ -46,7 +46,7 @@
                     <div v-for="(file,index) in File" :key="index" style="background-color: #cce2fa">
                         <span> {{
                                 file.name
-                            }}<span style="font-size:10px;color: #2e353a">({{ file.size }}MB)</span></span>
+                            }}<span style="font-size:10px;color: #2e353a">({{ file.size }}kB)</span></span>
                         <el-link
                             @click="deleteFile(index)">删除
                         </el-link>
@@ -58,7 +58,7 @@
     text-align: right;color: #1f74c0;padding-right:5px">正文:
                 </td>
                 <td>
-                    <div style="border: 1px solid #ccc; margin-top: 10px;width: 80vw;height:60vh">
+                    <div style="border: 1px solid #ccc; margin-top: 10px;width: 80vw;height:65vh">
                         <!-- 工具栏 -->
                         <Toolbar
                             style="border-bottom: 1px solid #ccc"
@@ -67,7 +67,7 @@
                         />
                         <!-- 编辑器 -->
                         <Editor
-                            style="height: 30vh; overflow-y: hidden"
+                            style="height: 60vh; overflow-y: hidden"
                             :defaultConfig="editorConfig"
                             v-model="html"
                             @onCreated="onCreated"
