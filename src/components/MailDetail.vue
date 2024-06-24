@@ -28,7 +28,7 @@
                 }}个</span></div>
         <div style="border: 1px solid #ccc;height: 60vh">
             <Editor
-                style="height: 400px; overflow-y: hidden;"
+                style="height: 60vh; overflow-y: hidden;"
                 :defaultConfig="editorConfig"
                 v-model="html"
                 @onCreated="onCreated"
@@ -45,7 +45,7 @@
                 <td><span style="font-size:10px">{{ item.fileName }}</span><span
                     style="color: #7f7f7f;font-size:9px">({{
                         item.size
-                    }})</span><br>
+                    }}kb)</span><br>
                     <span style="color: #7f7f7f;font-size:8px">下载链接</span>
                     <el-link style="color: #4036ff;font-size:8px" :href="item.downloadUrl" target="_blank">
                         {{ item.downloadUrl }}
